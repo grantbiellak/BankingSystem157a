@@ -7,6 +7,7 @@ module f25.cs157a.evergreenbank {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
+    requires mysql.connector.j;
 
     opens f25.cs157a.evergreenbank to javafx.fxml;
     exports f25.cs157a.evergreenbank;

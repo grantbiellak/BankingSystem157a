@@ -1,33 +1,36 @@
 package f25.cs157a.evergreenbank;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class JDBCTest {
     public static void main(String[] args) {
+        // 1) Load driver (optional on recent Java, but useful for clarity)
         try {
-            Class.forName("com.mysql.jdbc.driver"); //This is the URL of our driver? not quite sure
-        } catch (Exception e) {
-            System.out.println("Unable to load driver"); //Catch a driver failure no clue what this means either
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("Driver loaded ✔");
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL driver not found on classpath");
+            e.printStackTrace();
             return;
         }
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "user",
-                    "password"); //Our driver should recognize its own URL
-            //Statement stmt = conn.createStatement();
-            //ResultSet rs = stmt.executeQuery(
-            //"SELECT x FROM y"); THIS IS JUST AN EXAMPLE
-            //while(rs.next()){
-                //System.out.println(rs.getString("First_name");
-            //}
-            //rs.close()
-            //stmt.close()
-            //conn.close()
-        } catch (SQLException se) {
-            System.out.println("Unable to connect to database" + se.getMessage());
-            se.printStackTrace(System.out);
-        }
 
+        // 2) Connect and do a tiny query
+        String url  = "jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=UTC";
+        String user = "root";        // <-- your user
+        String pass = ""; // <-- your password (or "" if none)
+
+        try (
+                Connection conn = DriverManager.getConnection(url, user, pass);
+                PreparedStatement ps = conn.prepareStatement("SELECT 1");
+                ResultSet rs = ps.executeQuery()
+        ) {
+            System.out.println("Connected ✔");
+            if (rs.next()) {
+                System.out.println("Test query returned: " + rs.getInt(1));
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error ❌: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
