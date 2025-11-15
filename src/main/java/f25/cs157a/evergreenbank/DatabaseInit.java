@@ -7,7 +7,7 @@ public class DatabaseInit {
     public static void initialize(){
         String url  = "jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=UTC";
         String user = "root";        // <-- your user
-        String pass = ""; // <-- your password (or "" if none)
+        String pass = "";
 
         try(Connection conn = DriverManager.getConnection(url,user,pass);
             Statement stmt = conn.createStatement()){
