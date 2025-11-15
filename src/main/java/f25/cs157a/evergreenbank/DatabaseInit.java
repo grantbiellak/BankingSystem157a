@@ -5,7 +5,7 @@ import java.sql.*;
 public class DatabaseInit {
 
     public static void initialize(){
-        String url  = "jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=UTC";
+        String url  = "jdbc:mysql://localhost:3306/";
         String user = "root";        // <-- your user
         String pass = "";
 

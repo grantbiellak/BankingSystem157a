@@ -15,7 +15,7 @@ public class JDBCTest {
         }
 
         // 2) Connect and do a tiny query
-        String url  = "jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=UTC";
+        String url  = "jdbc:mysql://localhost:3306/";
         String user = "root";        // <-- your user
         String pass = ""; // <-- your password (or "" if none)
 
