@@ -1,42 +1,52 @@
 package f25.cs157a.evergreenbank;
 
-public class SavingsAccount implements AccountInt{
+import javafx.application.Application;
 
-    String fullName;
-    String email;
-    int accountNumber;
-    int phoneNumber;
-    double balance;
+public class SavingsAccount {
 
-    public SavingsAccount(String fullName, String email, int phoneNumber) {
-        this.fullName = fullName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
+    private int routingNumber;
+    private double balance;
+    private double interest;
+
+    public SavingsAccount(int routingNumber, int balance, double interest) {
+        this.routingNumber = routingNumber;
+        this.balance = 1000;
+        this.interest = 0.01;
     }
-
-    @Override
-    public double showBalance() {
+    public int getRoutingNumber() {
+        return routingNumber;
+    }
+    public void setRoutingNumber(int routingNumber) {
+        this.routingNumber = routingNumber;
+    }
+    public double getBalance() {
         return balance;
     }
-
-    @Override
-    public int showAccountNumber() {
-        return accountNumber;
-    }
-
-    @Override
-    public String showEmail() {
-        return email;
-    }
-
-    @Override
-    public void setAccountNumber(int accountNumber){
-        this.accountNumber = accountNumber;
-    }
-
-    @Override
-    public void setBalance(double balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
+    }
+    public double getInterest() {
+        return interest;
+    }
+    public void setInterest(double interest) {
+        this.interest = interest;
+    }
+    public void deposit(double amount) {
+        this.balance += amount;
+    }
+    public void withdraw(double amount) {
+        this.balance -= amount;
+    }
+    public void transferFunds(double amount) {
+        this.balance -= amount;
+    }
+    public void accrueInterest() {
+        this.balance = balance + balance*interest;
+    }
+
+    @Override
+    public String toString() {
+        return "Savings account[Routing number: " + routingNumber + ", Balance: " + balance + ", Interest rate: " + interest + "]";
     }
 
 }
