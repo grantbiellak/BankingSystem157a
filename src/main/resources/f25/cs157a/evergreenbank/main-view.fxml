@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!-- This is so obvious ICL -->
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="f25.cs157a.evergreenbank.AccountController">
+    <VBox spacing="10">
+        <Button fx:id="createaccountbutton" text="Create Account" onAction="#onCreateAccount">
+            <VBox.margin>
+                <Insets top="500" left="750" />
+            </VBox.margin>
+        </Button>
+    </VBox>
+</AnchorPane>
