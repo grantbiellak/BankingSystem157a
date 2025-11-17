@@ -8,7 +8,7 @@ public class SavingsAccount {
     private double balance;
     private double interest;
 
-    public SavingsAccount(int routingNumber, int balance, double interest) {
+    public SavingsAccount(int routingNumber, double balance, double interest) {
         this.routingNumber = routingNumber;
         this.balance = 1000;
         this.interest = 0.01;
