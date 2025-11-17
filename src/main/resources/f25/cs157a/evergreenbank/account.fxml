@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!-- This syntax for a comment is crazy -->
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="f25.cs157a.evergreenbank.AccountController">
+    <VBox spacing="10" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+          AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          alignment="CENTER" styleClass="form">
+        <!-- Labels are labels, textfields are textfields pretty obvious -->
+        <!-- Notice how we have a styleClass set this is for the css-->
+        <Label text="Full Name:" styleClass="label"/>
+        <TextField fx:id="fullNameField" promptText="Full name..." styleClass="text-field"/>
+        <Label text="Email Address:" styleClass="label"/>
+        <TextField fx:id="emailField" promptText="Email Address..." styleClass="text-field"/>
+        <Label text="Phone Number:" styleClass="label"/>
+        <TextField fx:id="accountPhoneNumberField" prefWidth="200" styleClass="text-field"/>
+        <Button fx:id="finalizeAccountCreationButton" text="Submit" onAction="#handleAccountCreation"/>
+    </VBox>
+</AnchorPane>

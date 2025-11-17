@@ -4,11 +4,13 @@ public class Account {
 
     private int accountNumber;
     private String email;
-    private int phoneNumber;
+    private String phoneNumber;
     private final SavingsAccount savingsAccount;
     private final CheckingAccount checkingAccount;
+    private String fullName;
 
-    public Account(String email, int phoneNumber, SavingsAccount savingsAccount, CheckingAccount checkingAccount) {
+    public Account(String fullName, String email, String phoneNumber, SavingsAccount savingsAccount, CheckingAccount checkingAccount) {
+        this.fullName = fullName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.savingsAccount = savingsAccount;
@@ -22,7 +24,7 @@ public class Account {
     public void setEmail(String email) {
         this.email = email;
     }
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
     public int getAccountNumber() {
@@ -31,7 +33,7 @@ public class Account {
     public String getEmail() {
         return this.email;
     }
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return this.phoneNumber;
     }
     public SavingsAccount getSavingsAccount() {
