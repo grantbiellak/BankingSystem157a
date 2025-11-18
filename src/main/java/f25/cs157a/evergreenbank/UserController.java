@@ -15,13 +15,13 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.Random;
 
-public class AccountController {
+public class UserController {
 
-    //Ok we have account creation here
-    private Account account;
-    private double SavingsBalance;
-    private double interestRate;
-    private double checkingBalance;
+    //Ok we have user creation here
+    private User user;
+    // private double SavingsBalance;
+    // private double interestRate;
+    // private double checkingBalance;
 
     //Labels for future use (NOT IMPLEMENTED)
     @FXML
@@ -41,7 +41,7 @@ public class AccountController {
     @FXML
     TextField fullNameField = new TextField();
     @FXML
-    TextField accountPhoneNumberField = new TextField();
+    TextField phoneNumberField = new TextField();
     @FXML
     TextField emailField = new TextField();
 
@@ -50,36 +50,24 @@ public class AccountController {
     //This is the standard for every scene, notice how we are replacing the content
     //WE DO NOT CREATE A NEW SCENE, JUST DO IT ON TOP OF IT
     @FXML
-    private void onCreateAccount(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("account.fxml"));
-        Parent accountRoot = loader.load();
+    private void onCreateUser(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("user.fxml"));
+        Parent userRoot = loader.load();
         Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(accountRoot);
+        scene.setRoot(userRoot);
     }
 
-    //This is what creates the Account object which we store user information in
+    //This is what creates the user object which we store user information in
     @FXML
-    protected void handleAccountCreation() {
+    protected void handleUserCreation() {
         String fullName = fullNameField.getText();
         String email = emailField.getText();
         System.out.println("Full name: " + fullName);
         System.out.println("Email: " + email);
-        String accountPhoneNumber = accountPhoneNumberField.getText();
-        System.out.println("Account Phone Number: " + accountPhoneNumber);
-        int savingsRoutingNumber = generateRoutingNumber();
-        SavingsAccount savingsAccount = new SavingsAccount(savingsRoutingNumber, SavingsBalance, interestRate);
-        int checkingRoutingNumber = generateRoutingNumber();
-        CheckingAccount  checkingAccount = new CheckingAccount(checkingRoutingNumber, checkingBalance);
-        account = new Account(fullName, email, accountPhoneNumber, savingsAccount, checkingAccount);
+        String phoneNumber = phoneNumberField.getText();
+        System.out.println("Account Phone Number: " + phoneNumber);
 
-
+        user = new User(fullName, email, phoneNumber);
     }
 
-    //This method should be moved somewhere else Ahmad would NOT be happy about this one.
-    //This should also be changed to being a random selection from a preset data structure
-    //Lazy implementation L grant
-    private static int generateRoutingNumber() {
-        Random random = new Random();
-        return 10000 + random.nextInt(90000);
-    }
 }

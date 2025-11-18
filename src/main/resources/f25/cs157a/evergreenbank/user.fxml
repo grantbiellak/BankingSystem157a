@@ -9,7 +9,7 @@
 <!-- This syntax for a comment is crazy -->
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="f25.cs157a.evergreenbank.AccountController">
+            fx:controller="f25.cs157a.evergreenbank.UserController">
     <VBox spacing="10" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
           AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
           alignment="CENTER" styleClass="form">
@@ -20,7 +20,7 @@
         <Label text="Email Address:" styleClass="label"/>
         <TextField fx:id="emailField" promptText="Email Address..." styleClass="text-field"/>
         <Label text="Phone Number:" styleClass="label"/>
-        <TextField fx:id="accountPhoneNumberField" prefWidth="200" styleClass="text-field"/>
-        <Button fx:id="finalizeAccountCreationButton" text="Submit" onAction="#handleAccountCreation"/>
+        <TextField fx:id="phoneNumberField" prefWidth="200" styleClass="text-field"/>
+        <Button fx:id="finalizeAccountCreationButton" text="Submit" onAction="#handleUserCreation"/>
     </VBox>
 </AnchorPane>
