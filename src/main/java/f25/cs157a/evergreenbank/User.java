@@ -1,25 +1,31 @@
 package f25.cs157a.evergreenbank;
 
-public class Account {
+import java.util.Random;
 
-    private int accountNumber;
+public class User {
+
+    private int userID;
+    private String fullName;
     private String email;
     private String phoneNumber;
     private final SavingsAccount savingsAccount;
     private final CheckingAccount checkingAccount;
-    private String fullName;
 
-    public Account(String fullName, String email, String phoneNumber, SavingsAccount savingsAccount, CheckingAccount checkingAccount) {
+    public User(String fullName, String email, String phoneNumber) {
         this.fullName = fullName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.savingsAccount = savingsAccount;
-        this.checkingAccount = checkingAccount;
+
+        this.savingsAccount = new SavingsAccount(generateRoutingNumber(), 0.0, 0.01);
+        this.checkingAccount = new CheckingAccount(generateRoutingNumber(), 0.0);
     }
 
     // Setters and getters in case we need them, not sure that we will
-    public void setAccountNumber(int accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
     public void setEmail(String email) {
         this.email = email;
@@ -27,8 +33,11 @@ public class Account {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    public int getAccountNumber() {
-        return this.accountNumber;
+    public int getUserID() {
+        return this.userID;
+    }
+    public String getFullName() {
+        return this.fullName;
     }
     public String getEmail() {
         return this.email;
@@ -43,8 +52,13 @@ public class Account {
         return this.checkingAccount;
     }
 
+    private static int generateRoutingNumber() {
+        Random random = new Random();
+        return 10000 + random.nextInt(90000);
+    }
+
     @Override
     public String toString(){
-        return this.email + " " + this.phoneNumber + " " + this.savingsAccount.toString();
+        return this.email + " " + this.phoneNumber + " " + this.savingsAccount.toString() + " " + this.checkingAccount.toString();
     }
 }

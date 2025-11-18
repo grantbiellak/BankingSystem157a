@@ -10,9 +10,9 @@
 <?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="f25.cs157a.evergreenbank.AccountController">
+            fx:controller="f25.cs157a.evergreenbank.UserController">
     <VBox spacing="10">
-        <Button fx:id="createaccountbutton" text="Create Account" onAction="#onCreateAccount">
+        <Button fx:id="createaccountbutton" text="Create Account" onAction="#onCreateUser">
             <VBox.margin>
                 <Insets top="500" left="750" />
             </VBox.margin>
