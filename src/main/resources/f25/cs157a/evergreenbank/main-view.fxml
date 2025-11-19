@@ -7,15 +7,20 @@
 <?import javafx.scene.layout.*?>
 
 <!-- This is so obvious ICL -->
-<?import javafx.geometry.Insets?>
-<AnchorPane xmlns="http://javafx.com/javafx"
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="f25.cs157a.evergreenbank.UserController">
-    <VBox spacing="10">
-        <Button fx:id="createaccountbutton" text="Create Account" onAction="#onCreateUser">
-            <VBox.margin>
-                <Insets top="500" left="750" />
-            </VBox.margin>
-        </Button>
-    </VBox>
-</AnchorPane>
+    <top>
+        <HBox fx:id="topBar" styleClass="top-bar" prefHeight="120" BorderPane.alignment="CENTER_LEFT">
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+    <center>
+        <VBox spacing="10" style="-fx-padding: 100 250 0 0;">
+            <Button fx:id="createaccountbutton" text="Create Account" onAction="#onCreateUser"/>
+        </VBox>
+    </center>
+</BorderPane>

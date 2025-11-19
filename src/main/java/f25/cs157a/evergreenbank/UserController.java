@@ -68,6 +68,15 @@ public class UserController {
         scene.setRoot(userRoot);
     }
 
+    @FXML
+    private void onBack(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
+        Parent mainRoot = loader.load();
+        Scene scene = ((Node) event.getSource()).getScene();
+        scene.setRoot(mainRoot);
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+    }
+
     //This is what creates the user object which we store user information in
     @FXML
     protected void handleUserCreation() {

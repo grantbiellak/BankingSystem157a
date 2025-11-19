@@ -23,11 +23,6 @@ public class DatabaseInit {
                         )
                     """;
             stmt.executeUpdate(createUsers);
-            String testAdd = """
-                    INSERT INTO users(full_name, email, phone) 
-                    VALUES ('Grant Biellak', 'gbiellak@gmail.com', '4086633526')""";
-            stmt.executeUpdate(testAdd);
-
             String query = "SELECT * FROM users";
             try (ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {

@@ -20,13 +20,13 @@
     -fx-effect: none;
 }
 
-#finalizeAccountCreationButton {
-    -fx-background-color: #e1ecf4;
+.user-buttons {
+    -fx-background-color: #e2f4e1;
     -fx-background-radius: 3;
-    -fx-border-color: #7aa7c7;
+    -fx-border-color: #7fc77a;
     -fx-border-width: 1;
     -fx-border-radius: 3;
-    -fx-text-fill: #39739d;
+    -fx-text-fill: #409d39;
     -fx-font-family: "Segoe UI", "Liberation Sans", system-ui, sans-serif;
     -fx-font-size: 13px;
     -fx-font-weight: 400;
@@ -36,27 +36,28 @@
     -fx-effect: innershadow(three-pass-box, rgba(255,255,255,0.7), 1, 0, 0, 1);
 }
 
-#finalizeAccountCreationButton:hover,
-#finalizeAccountCreationButton:focused {
-    -fx-background-color: #b3d3ea;
-    -fx-text-fill: #2c5777;
+.user-buttons:hover,
+.user-buttons:focused {
+    -fx-background-color: #bdedb7;
+    -fx-text-fill: #31ac57;
 }
-#finalizeAccountCreationButton:focused {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,149,255,0.15), 4, 0, 0, 0);
+.user-buttons:focused {
+    -fx-effect: dropshadow(three-pass-box, rgba(8, 255, 0, 0.15), 4, 0, 0, 0);
 }
 
 #finalizeAccountCreationButton:pressed {
-    -fx-background-color: #a0c7e4;
+    -fx-background-color: #a0e4ab;
     -fx-effect: none;
-    -fx-text-fill: #2c5777;
+    -fx-text-fill: #34772c;
 }
 
 .form {
-    -fx-background-color: #f2f2f2;
+    -fx-background-color: rgba(138, 198, 132, 0.87);
     -fx-padding: 20;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
-    -fx-max-width: 400;
+    -fx-border-radius: 20;
+    -fx-background-radius: 15;
+    -fx-max-width: 600;
+    -fx-max-height: 500;
 }
 
 .label {
@@ -70,5 +71,24 @@
     -fx-border-radius: 4;
     -fx-background-radius: 4;
     -fx-font-size: 14px;
+}
+.top-bar {
+    -fx-background-color: #2e7d32;
+    -fx-background-image: url("evergreenBank.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 12px center;
+    -fx-background-size: 100px auto;
+    -fx-padding: 10 16 10 64;
+}
+
+.title {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Optional: center content padding */
+.stack-pane, .content-root {
+    -fx-padding: 24;
 }
 
