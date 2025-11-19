@@ -90,7 +90,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>f25.cs157a.evergreenbank/f25.cs157a.evergreenbank.HelloApplication</mainClass>
+                            <mainClass>f25.cs157a.evergreenbank/f25.cs157a.evergreenbank.Launcher</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
