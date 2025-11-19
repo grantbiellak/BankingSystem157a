@@ -8,12 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 import javafx.event.ActionEvent;
 
 
 import java.io.IOException;
-import java.util.Random;
 
 import java.sql.*;
 
@@ -69,7 +68,7 @@ public class UserController {
     }
 
     @FXML
-    private void onBack(ActionEvent event) throws IOException {
+    private void onBack(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
         Parent mainRoot = loader.load();
         Scene scene = ((Node) event.getSource()).getScene();

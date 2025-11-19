@@ -7,33 +7,45 @@
 <?import javafx.scene.layout.*?>
 
 <!-- This syntax for a comment is crazy -->
-<BorderPane xmlns="http://javafx.com/javafx"
+<BorderPane fx:id="userRoot" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="f25.cs157a.evergreenbank.UserController">
     <top>
-        <HBox fx:id="topBar" styleClass="top-bar" prefHeight="120" alignment="CENTER">
+        <HBox fx:id="topBar" styleClass="top-bar" prefHeight="120" alignment="CENTER" spacing="40">
+            <Label text="Login Page" onMouseClicked="#onBack" styleClass="top-bar-label"/>
             <Pane HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>
     <center>
-        <GridPane hgap="10" vgap="12" alignment="CENTER"
-                  styleClass="form">
-            <Label text="Full Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="label"/>
-            <TextField fx:id="fullNameField" promptText="Full name..."
-                       GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="text-field"/>
+        <GridPane hgap="10" vgap="12" alignment="CENTER" styleClass="form">
+            <!-- Make two columns: labels right, fields left -->
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
 
-            <Label text="Email Address:" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="label"/>
-            <TextField fx:id="emailField" promptText="Email Address..."
+            <Label fx:id="welcomeLabel"
+                   text="Welcome to Evergreen Bank"
+                   GridPane.rowIndex="0" GridPane.columnIndex="0"
+                   GridPane.columnSpan="2" GridPane.halignment="CENTER" />
+
+            <Label text="Full Name:" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="label"/>
+            <TextField fx:id="fullNameField" promptText="Full name..."
                        GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="text-field"/>
 
-            <Label text="Phone Number:" GridPane.rowIndex="10" GridPane.columnIndex="0" styleClass="label"/>
-            <TextField fx:id="phoneNumberField" promptText="Phone Number..."
+            <Label text="Email Address:" GridPane.rowIndex="10" GridPane.columnIndex="0" styleClass="label"/>
+            <TextField fx:id="emailField" promptText="Email Address..."
                        GridPane.rowIndex="10" GridPane.columnIndex="1" styleClass="text-field"/>
 
+            <Label text="Phone Number:" GridPane.rowIndex="15" GridPane.columnIndex="0" styleClass="label"/>
+            <TextField fx:id="phoneNumberField" promptText="Phone Number..."
+                       GridPane.rowIndex="15" GridPane.columnIndex="1" styleClass="text-field"/>
+
+            <!-- Bottom button centered on true middle by spanning both columns -->
             <Button fx:id="Submit" text="Create Account" onAction="#handleUserCreation"
-                    GridPane.rowIndex="15" GridPane.columnIndex="2" styleClass="user-buttons"/>
-            <Button fx:id="Back" text="Back to home" onAction="#onBack"
-                    GridPane.rowIndex="15" GridPane.columnIndex="0" styleClass="user-buttons"/>
+                    GridPane.rowIndex="20" GridPane.columnIndex="0"
+                    GridPane.columnSpan="2" GridPane.halignment="CENTER"
+                    styleClass="user-buttons"/>
         </GridPane>
     </center>
 </BorderPane>

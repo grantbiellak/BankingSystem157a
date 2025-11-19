@@ -30,7 +30,6 @@
     -fx-font-family: "Segoe UI", "Liberation Sans", system-ui, sans-serif;
     -fx-font-size: 13px;
     -fx-font-weight: 400;
-    -fx-padding: 8 12 8 12;
     -fx-cursor: hand;
     -fx-alignment: center;
     -fx-effect: innershadow(three-pass-box, rgba(255,255,255,0.7), 1, 0, 0, 1);
@@ -45,14 +44,8 @@
     -fx-effect: dropshadow(three-pass-box, rgba(8, 255, 0, 0.15), 4, 0, 0, 0);
 }
 
-#finalizeAccountCreationButton:pressed {
-    -fx-background-color: #a0e4ab;
-    -fx-effect: none;
-    -fx-text-fill: #34772c;
-}
-
 .form {
-    -fx-background-color: rgba(138, 198, 132, 0.87);
+    -fx-background-color: white;
     -fx-padding: 20;
     -fx-border-radius: 20;
     -fx-background-radius: 15;
@@ -76,8 +69,8 @@
     -fx-background-color: #2e7d32;
     -fx-background-image: url("evergreenBank.png");
     -fx-background-repeat: no-repeat;
-    -fx-background-position: 12px center;
-    -fx-background-size: 100px auto;
+    -fx-background-position: 0px center;
+    -fx-background-size: 150px auto;
     -fx-padding: 10 16 10 64;
 }
 
@@ -87,8 +80,29 @@
     -fx-font-weight: bold;
 }
 
-/* Optional: center content padding */
 .stack-pane, .content-root {
     -fx-padding: 24;
 }
 
+.top-bar-label {
+    -fx-font-weight: bold;
+    -fx-font-family: "Copperplate", "Georgia", system-ui, sans-serif;
+    -fx-font-size: 25;
+    -fx-text-fill: #000000;
+    -fx-padding: 0 0 0 120;
+}
+.top-bar-label:hover {
+    -fx-text-fill: white;
+    -fx-underline: true;
+}
+
+#userRoot {
+    -fx-background-color: linear-gradient(to bottom right, #ffffff, #bfecbf);
+}
+
+#welcomeLabel {
+    -fx-font-weight: bold;
+    -fx-font-family: "Copperplate", "Georgia", system-ui, sans-serif;
+    -fx-font-size: 25;
+    -fx-text-fill: #000000;
+}
