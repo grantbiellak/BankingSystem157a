@@ -15,6 +15,8 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.Random;
 
+import java.sql.*;
+
 public class UserController {
 
     //Ok we have user creation here
@@ -31,7 +33,7 @@ public class UserController {
 
     //This is the Create account button on the main screen the one that we first see on launch
     @FXML
-    Button createNewAccountButton = new Button("Create New Account");
+    private Button Submit;
 
     //FUTURE USE
     @FXML
@@ -39,11 +41,20 @@ public class UserController {
 
     //Text fields for getting user information on account creation
     @FXML
-    TextField fullNameField = new TextField();
+    private TextField fullNameField;
     @FXML
-    TextField phoneNumberField = new TextField();
+    private TextField phoneNumberField;
     @FXML
-    TextField emailField = new TextField();
+    private TextField emailField;
+
+    @FXML
+    private void initialize() {
+        System.out.println("inject fullNameField=" + fullNameField);
+        System.out.println("inject emailField=" + emailField);
+        System.out.println("inject phoneNumberField=" + phoneNumberField);
+        System.out.println("controller @" + System.identityHashCode(this));
+    }
+
 
 
     //When we click the first account creation button this is what runs
@@ -68,6 +79,22 @@ public class UserController {
         System.out.println("Account Phone Number: " + phoneNumber);
 
         user = new User(fullName, email, phoneNumber);
+
+        try {
+            int userID = UserRepository.insertUser(user);
+            System.out.println("User created with ID: " + userID);
+
+            fullNameField.clear();
+            emailField.clear();
+            phoneNumberField.clear();
+        }
+        catch (java.sql.SQLIntegrityConstraintViolationException e) {
+            System.out.println("A user with this email already exists.");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error creating user.");
+        }
     }
 
 }

@@ -20,7 +20,7 @@
         <Label text="Email Address:" styleClass="label"/>
         <TextField fx:id="emailField" promptText="Email Address..." styleClass="text-field"/>
         <Label text="Phone Number:" styleClass="label"/>
-        <TextField fx:id="phoneNumberField" prefWidth="200" styleClass="text-field"/>
-        <Button fx:id="finalizeAccountCreationButton" text="Submit" onAction="#handleUserCreation"/>
+        <TextField fx:id="phoneNumberField" promptText="Phone Number..." prefWidth="200" styleClass="text-field"/>
+        <Button fx:id="Submit" text="Submit" onAction="#handleUserCreation"/>
     </VBox>
 </AnchorPane>
