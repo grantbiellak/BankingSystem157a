@@ -13,13 +13,13 @@ public class DatabaseInit {
             Statement stmt = conn.createStatement()){
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS bankdb");
             stmt.executeUpdate("USE bankdb");
-            stmt.executeUpdate("DROP TABLE IF EXISTS users");
             String createUsers = """
                     CREATE TABLE IF NOT EXISTS users(
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         full_name VARCHAR(50),
-                        email VARCHAR(50) UNIQUE,
-                        phone VARCHAR(15)
+                        email VARCHAR(50),
+                        phone VARCHAR(15),
+                        CONSTRAINT uq_email_phone UNIQUE (email, phone)
                         )
                     """;
             stmt.executeUpdate(createUsers);

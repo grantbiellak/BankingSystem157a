@@ -43,9 +43,15 @@
 
             <!-- Bottom button centered on true middle by spanning both columns -->
             <Button fx:id="Submit" text="Create Account" onAction="#handleUserCreation"
-                    GridPane.rowIndex="20" GridPane.columnIndex="0"
+                    GridPane.rowIndex="21" GridPane.columnIndex="0"
                     GridPane.columnSpan="2" GridPane.halignment="CENTER"
                     styleClass="user-buttons"/>
+            <Label fx:id="accountFail" text="*Email and Phone number combination invalid"
+                   GridPane.rowIndex="20" GridPane.columnIndex="0"
+                   GridPane.columnSpan="2" GridPane.halignment="CENTER" visible="false" styleClass="error-label"/>
+            <Label fx:id="missingField" text="*Please fill out all fields"
+                   GridPane.rowIndex="20" GridPane.columnIndex="0"
+                   GridPane.columnSpan="2" GridPane.halignment="CENTER" visible="false" styleClass="error-label"/>
         </GridPane>
     </center>
 </BorderPane>

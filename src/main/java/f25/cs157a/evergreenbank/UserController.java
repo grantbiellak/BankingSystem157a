@@ -38,6 +38,11 @@ public class UserController {
     @FXML
     private Label interestRateLabel;
 
+    @FXML
+    private Label accountFail;
+
+    @FXML
+    private Label missingField;
     //Text fields for getting user information on account creation
     @FXML
     private TextField fullNameField;
@@ -79,6 +84,8 @@ public class UserController {
     //This is what creates the user object which we store user information in
     @FXML
     protected void handleUserCreation() {
+        missingField.setVisible(false);
+        accountFail.setVisible(false);
         String fullName = fullNameField.getText();
         String email = emailField.getText();
         System.out.println("Full name: " + fullName);
@@ -87,7 +94,10 @@ public class UserController {
         System.out.println("Account Phone Number: " + phoneNumber);
 
         user = new User(fullName, email, phoneNumber);
-
+        if(email.isEmpty() || phoneNumber.isEmpty() || fullName.isEmpty()) {
+            missingField.setVisible(true);
+            return;
+        }
         try {
             int userID = UserRepository.insertUser(user);
             System.out.println("User created with ID: " + userID);
@@ -97,6 +107,7 @@ public class UserController {
             phoneNumberField.clear();
         }
         catch (java.sql.SQLIntegrityConstraintViolationException e) {
+            accountFail.setVisible(true);
             System.out.println("A user with this email already exists.");
         }
         catch (SQLException e) {
