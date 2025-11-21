@@ -117,7 +117,7 @@
     -fx-underline: true;
 }
 
-#userRoot {
+#borderPane {
     -fx-background-color: linear-gradient(to bottom right, #ffffff, #bfecbf);
 }
 
@@ -131,4 +131,12 @@
 .error-label{
     -fx-font-weight: bold;
     -fx-text-fill: #FF0000;
+}
+
+#dialogPane{
+    -fx-background-color: #d8e6d2;
+}
+
+.creation-labels{
+    -fx-font-weight: bold;
 }

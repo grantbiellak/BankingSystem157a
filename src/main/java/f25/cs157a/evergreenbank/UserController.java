@@ -5,11 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.event.ActionEvent;
+import javafx.scene.layout.BorderPane;
 
 
 import java.io.IOException;
@@ -18,32 +17,25 @@ import java.sql.*;
 
 public class UserController {
 
-    //Ok we have user creation here
     private User user;
-    // private double SavingsBalance;
-    // private double interestRate;
-    // private double checkingBalance;
-
-    //Labels for future use (NOT IMPLEMENTED)
     @FXML
-    private Label savingsBalanceLabel;
-    @FXML
-    private Label checkingBalanceLabel;
-
-    //This is the Create account button on the main screen the one that we first see on launch
+    private BorderPane borderPane;
     @FXML
     private Button Submit;
-
-    //FUTURE USE
     @FXML
-    private Label interestRateLabel;
-
+    private DialogPane dialogPane;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private Label emailLabel;
+    @FXML
+    private Label accountNumberLabel;
+    @FXML
+    private Label phoneNumberLabel;
     @FXML
     private Label accountFail;
-
     @FXML
     private Label missingField;
-    //Text fields for getting user information on account creation
     @FXML
     private TextField fullNameField;
     @FXML
@@ -51,6 +43,8 @@ public class UserController {
     @FXML
     private TextField emailField;
 
+    //Jawn what even is the point of this be so honest with me
+    //TODO DELETE?
     @FXML
     private void initialize() {
         System.out.println("inject fullNameField=" + fullNameField);
@@ -100,8 +94,14 @@ public class UserController {
         }
         try {
             int userID = UserRepository.insertUser(user);
-            System.out.println("User created with ID: " + userID);
-
+            usernameLabel.setText("User created with name: " + fullName);
+            emailLabel.setText("Email: " + email);
+            phoneNumberLabel.setText("Account Phone Number: " + phoneNumber);
+            accountNumberLabel.setText("Account Number: " + userID);
+            Dialog<Void> dialog = new Dialog<>();
+            dialog.setDialogPane(dialogPane);
+            dialog.initOwner(borderPane.getScene().getWindow());
+            dialog.showAndWait();
             fullNameField.clear();
             emailField.clear();
             phoneNumberField.clear();
@@ -116,6 +116,7 @@ public class UserController {
         }
     }
 
+    //TODO Move somewhere else (main controller when created)
     @FXML
     private void onSignIn(javafx.event.ActionEvent event) throws java.io.IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("signin.fxml"));

@@ -7,9 +7,35 @@
 <?import javafx.scene.layout.*?>
 
 <!-- This syntax for a comment is crazy -->
-<BorderPane fx:id="userRoot" xmlns="http://javafx.com/javafx"
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="f25.cs157a.evergreenbank.UserController">
+    <fx:define>
+        <DialogPane fx:id="dialogPane"
+                    prefWidth="400"
+                    prefHeight="300"
+                    minWidth="350"
+                    minHeight="250">
+            <headerText>Account Successfully Created!</headerText>
+            <content>
+                <GridPane alignment="CENTER" vgap="10">
+                    <Label fx:id="usernameLabel" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                           GridPane.columnSpan="2" GridPane.halignment="CENTER" styleClass="creation-labels"/>
+                    <Label fx:id="emailLabel"    GridPane.rowIndex="1" GridPane.columnIndex="0"
+                           GridPane.columnSpan="2" GridPane.halignment="CENTER" styleClass="creation-labels"/>
+                    <Label fx:id="phoneNumberLabel" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                           GridPane.columnSpan="2" GridPane.halignment="CENTER" styleClass="creation-labels"/>
+                    <Label fx:id="accountNumberLabel" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                           GridPane.columnSpan="2" GridPane.halignment="CENTER" styleClass="creation-labels"/>
+                    <Label GridPane.rowIndex="4" text="*Please take note of your account number" GridPane.columnIndex="0"
+                           GridPane.columnSpan="2" GridPane.halignment="CENTER" styleClass="creation-labels"/>
+                </GridPane>
+            </content>
+            <buttonTypes>
+                <ButtonType text="OK" buttonData="OK_DONE"/>
+            </buttonTypes>
+        </DialogPane>
+    </fx:define>
     <top>
         <HBox fx:id="topBar" styleClass="top-bar" prefHeight="120" alignment="CENTER" spacing="40">
             <Label text="Login Page" onMouseClicked="#onBack" styleClass="top-bar-label"/>
@@ -18,7 +44,6 @@
     </top>
     <center>
         <GridPane hgap="10" vgap="12" alignment="CENTER" styleClass="form">
-            <!-- Make two columns: labels right, fields left -->
             <columnConstraints>
                 <ColumnConstraints halignment="RIGHT" />
                 <ColumnConstraints hgrow="ALWAYS" />
