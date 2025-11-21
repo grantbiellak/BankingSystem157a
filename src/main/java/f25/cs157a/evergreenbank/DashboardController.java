@@ -1,0 +1,45 @@
+package f25.cs157a.evergreenbank;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Label;
+
+public class DashboardController {
+    
+    @FXML private Label welcomeName;
+    @FXML private Label checkingRoutingLabel;
+    @FXML private Label checkingBalanceLabel;
+    @FXML private Label savingsRoutingLabel;
+    @FXML private Label savingsBalanceLabel;
+
+
+    // signincontrolelr calls this after login
+    // jus display the balances and routing nums
+    public void setData(String fullName, UserRepository.AccountsView view) {
+        //jus the top label we a friendly bank :D
+        if (welcomeName != null) {
+            welcomeName.setText("Welcome, " + fullName + "!");
+        }
+        if (checkingRoutingLabel != null) {
+            checkingRoutingLabel.setText("Checking Routing Number: " + view.checkingRouting);
+        }
+        if (checkingBalanceLabel != null) {
+            checkingBalanceLabel.setText(String.format("Checking Balance: $%.2f", view.checkingBalance));
+        }
+        if (savingsRoutingLabel != null) {
+            savingsRoutingLabel.setText("Savings Routing Number: " + view.savingsRouting);
+        }
+        if (savingsBalanceLabel != null) {
+            savingsBalanceLabel.setText(String.format("Savings Balance: $%.2f", view.savingsBalance));
+        }
+    }
+
+
+    @FXML
+    private void onBack(javafx.scene.input.MouseEvent e) throws java.io.IOException {
+        Parent main = FXMLLoader.load(getClass().getResource("main-view.fxml"));
+        ((Node)e.getSource()).getScene().setRoot(main);
+    }
+}

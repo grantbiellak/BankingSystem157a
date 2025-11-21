@@ -86,11 +86,11 @@ public class UserController {
     protected void handleUserCreation() {
         missingField.setVisible(false);
         accountFail.setVisible(false);
-        String fullName = fullNameField.getText();
-        String email = emailField.getText();
+        String fullName = fullNameField.getText().trim();
+        String email = emailField.getText().trim();
         System.out.println("Full name: " + fullName);
         System.out.println("Email: " + email);
-        String phoneNumber = phoneNumberField.getText();
+        String phoneNumber = phoneNumberField.getText().trim();
         System.out.println("Account Phone Number: " + phoneNumber);
 
         user = new User(fullName, email, phoneNumber);
@@ -114,6 +114,14 @@ public class UserController {
             e.printStackTrace();
             System.out.println("Error creating user.");
         }
+    }
+
+    @FXML
+    private void onSignIn(javafx.event.ActionEvent event) throws java.io.IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("signin.fxml"));
+        Parent signInRoot = loader.load();
+        Scene scene = ((Node) event.getSource()).getScene();
+        scene.setRoot(signInRoot);
     }
 
 }

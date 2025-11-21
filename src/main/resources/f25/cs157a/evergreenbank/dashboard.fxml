@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.*?><?import javafx.scene.control.*?><?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="f25.cs157a.evergreenbank.DashboardController">
+    <top>
+        <HBox spacing="40" alignment="CENTER" prefHeight="120" styleClass="top-bar">
+            <Label fx:id="welcomeName" text="Welcome" styleClass="top-bar-label" onMouseClicked="#onBack"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+    <center>
+        <GridPane hgap="16" vgap="12" alignment="CENTER" styleClass="form">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <Label text="Checking Routing #:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label fx:id="checkingRoutingLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Checking Balance:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label fx:id="checkingBalanceLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Savings Routing #:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label fx:id="savingsRoutingLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Savings Balance:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Label fx:id="savingsBalanceLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        </GridPane>
+    </center>
+</BorderPane>
