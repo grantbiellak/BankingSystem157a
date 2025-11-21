@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.*?><?import javafx.scene.control.*?><?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="f25.cs157a.evergreenbank.SignInController">
+    <top>
+        <HBox spacing="40" alignment="CENTER" prefHeight="120" styleClass="top-bar">
+            <Label text="Login Page" styleClass="top-bar-label" onMouseClicked="#onBack"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+    <center>
+        <GridPane hgap="10" vgap="12" alignment="CENTER" styleClass="form">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <Label text="User ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="userIdField" promptText="e.g. 12"
+                       GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Full Name:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="fullNameField" promptText="Your full name"
+                       GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Button text="Sign In" onAction="#handleSignIn"
+                    GridPane.rowIndex="2" GridPane.columnIndex="0"
+                    GridPane.columnSpan="2" GridPane.halignment="CENTER"
+                    styleClass="user-buttons"/>
+
+            <Label fx:id="errorLabel" text="*Invalid user ID + full name"
+                   visible="false" styleClass="error-label"
+                   GridPane.rowIndex="3" GridPane.columnIndex="0"
+                   GridPane.columnSpan="2" GridPane.halignment="CENTER"/>
+        </GridPane>
+    </center>
+</BorderPane>
