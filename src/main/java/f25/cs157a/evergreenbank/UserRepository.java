@@ -42,26 +42,24 @@ public final class UserRepository {
 
                 // insert savings and checking accounts
                 String insertSavings =
-                    "INSERT INTO accounts (user_id, account_type, routing_number, balance, interest_rate) " +
-                    "VALUES (?, 'SAVINGS', ?, ?, ?)";
+                    "INSERT INTO accounts (user_id, account_type, balance, interest_rate) " +
+                    "VALUES (?, 'SAVINGS', ?, ?)";
                 try (PreparedStatement psSav = conn.prepareStatement(insertSavings)) {
                     // fill in the question marks of insertSavings
                     psSav.setInt(1, u.getUserID());
-                    psSav.setInt(2, u.getSavingsAccount().getRoutingNumber());
-                    psSav.setDouble(3, u.getSavingsAccount().getBalance());
-                    psSav.setDouble(4, u.getSavingsAccount().getInterest());
+                    psSav.setDouble(2, u.getSavingsAccount().getBalance());
+                    psSav.setDouble(3, u.getSavingsAccount().getInterest());
                     psSav.executeUpdate();
                 }
 
                 String insertChecking =
-                    "INSERT INTO accounts (user_id, account_type, routing_number, balance) " +
-                    "VALUES (?, 'CHECKING', ?, ?)";
+                    "INSERT INTO accounts (user_id, account_type, balance) " +
+                    "VALUES (?, 'CHECKING', ?)";
 
                 try (PreparedStatement psChk = conn.prepareStatement(insertChecking)) {
                     // fill in the question marks of insertSavings
                     psChk.setInt(1, u.getUserID());
-                    psChk.setInt(2, u.getCheckingAccount().getRoutingNumber());
-                    psChk.setDouble(3, u.getCheckingAccount().getBalance());
+                    psChk.setDouble(2, u.getCheckingAccount().getBalance());
                     psChk.executeUpdate();
                 }
 
@@ -82,8 +80,6 @@ public final class UserRepository {
 
     // this is what the dashboard gonna show idk r static nested classes bad
     public static class AccountsView {
-        public int savingsRouting;
-        public int checkingRouting;
         public double savingsBalance;
         public double checkingBalance;
 
@@ -111,9 +107,8 @@ public final class UserRepository {
             }
     
             // fetch accounts from this user
-            String accSql = "SELECT account_type, routing_number, balance FROM accounts WHERE user_id = ?";
+            String accSql = "SELECT account_type, balance FROM accounts WHERE user_id = ?";
             boolean hasChecking = false, hasSavings = false;
-            int checkingRouting = 0, savingsRouting = 0;
             double checkingBalance = 0.0, savingsBalance = 0.0;
     
             try (PreparedStatement ps = conn.prepareStatement(accSql)) {
@@ -122,18 +117,15 @@ public final class UserRepository {
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {
                         String type = rs.getString("account_type");
-                        int routing  = rs.getInt("routing_number");
                         double bal   = rs.getDouble("balance");
 
                         // assign dashboard vals
                         if ("CHECKING".equals(type)) {
                             hasChecking = true;
-                            checkingRouting = routing;
                             checkingBalance = bal;
                         }
                         else if ("SAVINGS".equals(type)) {
                             hasSavings = true;
-                            savingsRouting = routing;
                             savingsBalance = bal;
                         }
                     }
@@ -146,9 +138,7 @@ public final class UserRepository {
 
             // this the for the dashboard
             AccountsView view = new AccountsView();
-            view.checkingRouting = checkingRouting;
             view.checkingBalance = checkingBalance;
-            view.savingsRouting  = savingsRouting;
             view.savingsBalance  = savingsBalance;
             return view;
         }

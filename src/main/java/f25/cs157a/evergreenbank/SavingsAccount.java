@@ -4,8 +4,8 @@ public class SavingsAccount extends Account{
 
     private double interest;
 
-    public SavingsAccount(int routingNumber, double balance, double interest) {
-        super(routingNumber, balance);
+    public SavingsAccount(double balance, double interest) {
+        super(balance);
         this.interest = interest;
     }
     public double getInterest() {
@@ -20,7 +20,7 @@ public class SavingsAccount extends Account{
 
     @Override
     public String toString() {
-        return "Savings account[Routing number: " + getRoutingNumber()  + ", Balance: " + getBalance() + ", Interest rate: " + interest + "]";
+        return "Savings account[Routing number: Balance: " + getBalance() + ", Interest rate: " + interest + "]";
 
     }
 

@@ -16,8 +16,8 @@ public class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
 
-        this.savingsAccount = new SavingsAccount(generateRoutingNumber(), 0.0, 0.01);
-        this.checkingAccount = new CheckingAccount(generateRoutingNumber(), 0.0);
+        this.savingsAccount = new SavingsAccount(0.0, 0.01);
+        this.checkingAccount = new CheckingAccount(0.0);
     }
 
     // Setters and getters in case we need them, not sure that we will
@@ -50,12 +50,6 @@ public class User {
     }
     public CheckingAccount getCheckingAccount() {
         return this.checkingAccount;
-    }
-
-    private static int generateRoutingNumber() {
-        Random random = new Random();
-        return 10000 + random.nextInt(90000);
-
     }
 
     @Override

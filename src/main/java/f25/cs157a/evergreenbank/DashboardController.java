@@ -22,14 +22,8 @@ public class DashboardController {
         if (welcomeName != null) {
             welcomeName.setText("Welcome, " + fullName + "!");
         }
-        if (checkingRoutingLabel != null) {
-            checkingRoutingLabel.setText("Checking Routing Number: " + view.checkingRouting);
-        }
         if (checkingBalanceLabel != null) {
             checkingBalanceLabel.setText(String.format("Checking Balance: $%.2f", view.checkingBalance));
-        }
-        if (savingsRoutingLabel != null) {
-            savingsRoutingLabel.setText("Savings Routing Number: " + view.savingsRouting);
         }
         if (savingsBalanceLabel != null) {
             savingsBalanceLabel.setText(String.format("Savings Balance: $%.2f", view.savingsBalance));

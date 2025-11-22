@@ -39,7 +39,6 @@ public class DatabaseInit {
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     user_id INT NOT NULL,
                     account_type ENUM('CHECKING','SAVINGS') NOT NULL,
-                    routing_number INT NOT NULL,
                     balance DOUBLE NOT NULL,
                     interest_rate DOUBLE NULL,
                     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
