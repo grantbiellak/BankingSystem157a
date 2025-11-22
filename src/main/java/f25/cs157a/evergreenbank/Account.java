@@ -1,22 +1,14 @@
 package f25.cs157a.evergreenbank;
 
 public abstract class Account {
-    private int routingNumber;
     private double balance;
 
-    protected Account (int routingNumber, double balance) {
-        this.routingNumber = routingNumber;
+    protected Account (double balance) {
         this.balance = balance;
     }
 
-    public int getRoutingNumber() {
-        return routingNumber;
-    }
     public double getBalance() {
         return balance;
-    }
-    public void setRoutingNumber(int routingNumber) {
-        this.routingNumber = routingNumber;
     }
     public void setBalance(double balance) {
         this.balance = balance;
