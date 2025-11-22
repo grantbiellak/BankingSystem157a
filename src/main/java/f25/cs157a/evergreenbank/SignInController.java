@@ -21,13 +21,12 @@ public class SignInController {
     @FXML
     private Label errorLabel;
 
-
     // for sign in button
     @FXML
     private void handleSignIn(ActionEvent event) throws IOException {
 
         // clear prev error msgs idk
-        if(errorLabel != null) {
+        if (errorLabel != null) {
             errorLabel.setVisible(false);
         }
 
@@ -35,7 +34,7 @@ public class SignInController {
         String idText = userIdField.getText().trim();
         String nameText = fullNameField.getText().trim();
         if (idText.isEmpty() || nameText.isEmpty()) {
-            if(errorLabel != null) {
+            if (errorLabel != null) {
                 errorLabel.setText("Please enter both User ID and Full Name.");
                 errorLabel.setVisible(true);
             }
@@ -47,7 +46,7 @@ public class SignInController {
         try {
             userID = Integer.parseInt(idText);
         } catch (NumberFormatException e) {
-            if(errorLabel != null) {
+            if (errorLabel != null) {
                 errorLabel.setText("User ID must be a number.");
                 errorLabel.setVisible(true);
             }
@@ -60,13 +59,13 @@ public class SignInController {
             view = UserRepository.getAccounts(userID, nameText);
         } catch (SQLException e) {
             e.printStackTrace();
-            if(errorLabel != null) {
+            if (errorLabel != null) {
                 errorLabel.setText("Error accessing the database.");
                 errorLabel.setVisible(true);
             }
         }
         if (view == null) {
-            if(errorLabel != null) {
+            if (errorLabel != null) {
                 errorLabel.setText("Invalid User ID or Full Name.");
                 errorLabel.setVisible(true);
             }
@@ -81,6 +80,7 @@ public class SignInController {
         Scene scene = ((Node) event.getSource()).getScene();
         scene.setRoot(dashboardRoot);
     }
+
 
     @FXML
     private void onBack(javafx.scene.input.MouseEvent e) throws IOException {
