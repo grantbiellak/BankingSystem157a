@@ -80,6 +80,7 @@ public final class UserRepository {
 
     // this is what the dashboard gonna show idk r static nested classes bad
     public static class AccountsView {
+        public int userID;
         public double savingsBalance;
         public double checkingBalance;
 
@@ -138,12 +139,79 @@ public final class UserRepository {
 
             // this the for the dashboard
             AccountsView view = new AccountsView();
+            view.userID = userId;
             view.checkingBalance = checkingBalance;
             view.savingsBalance  = savingsBalance;
             return view;
         }
     }
 
+    public static boolean transferByUserAndType(int fromUserId, String fromType,
+                                                int toUserId,   String toType,
+                                                double amount) throws SQLException {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be positive");
+        }
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+            conn.setAutoCommit(false);
+            try {
+                fromType = fromType.toUpperCase();
+                toType   = toType.toUpperCase();
+
+                Integer fromId = null, toId = null;
+                double fromBalance = 0.0;
+
+                final String lockByUserType = "SELECT id, balance FROM accounts " +
+                        "WHERE user_id = ? AND account_type = ? FOR UPDATE";
+
+                try (PreparedStatement ps = conn.prepareStatement(lockByUserType)) {
+                    ps.setInt(1, fromUserId);
+                    ps.setString(2, fromType);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            throw new SQLException("Source account not found");
+                        }
+                        fromId = rs.getInt("id");
+                        fromBalance = rs.getDouble("balance");
+                    }
+                }
+
+                try (PreparedStatement ps = conn.prepareStatement(lockByUserType)) {
+                    ps.setInt(1, toUserId);
+                    ps.setString(2, toType);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            throw new SQLException("Destination account not found");
+                        }
+                        toId = rs.getInt("id");
+                    }
+                }
+                if (fromId.equals(toId)) {
+                    throw new SQLException("From and To accounts must differ");
+                }
+                if (fromBalance < amount) {
+                    throw new SQLException("Insufficient funds");
+                }
+
+                try (PreparedStatement debit  = conn.prepareStatement(
+                        "UPDATE accounts SET balance = balance - ? WHERE id = ?");
+                     PreparedStatement credit = conn.prepareStatement(
+                             "UPDATE accounts SET balance = balance + ? WHERE id = ?")) {
+
+                    debit.setDouble(1, amount);  debit.setInt(2, fromId); debit.executeUpdate();
+                    credit.setDouble(1, amount); credit.setInt(2, toId);  credit.executeUpdate();
+                }
+                conn.commit();
+                return true;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        }
+    }
 
     private UserRepository() {
         // private constructor to prevent instantiation

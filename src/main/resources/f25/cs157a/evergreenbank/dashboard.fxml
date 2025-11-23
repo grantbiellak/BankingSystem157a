@@ -26,6 +26,10 @@
 
             <Label text="Savings Balance:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
             <Label fx:id="savingsBalanceLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <TextField fx:id="amountField" text="Amount" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <TextField fx:id="toAccountField" text="To which account" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            <Button text="transfer" onAction="#onTransfer"/>
         </GridPane>
     </center>
 </BorderPane>
