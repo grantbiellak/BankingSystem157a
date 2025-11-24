@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="f25.cs157a.evergreenbank.TransferController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <fx:define>
+        <ToggleGroup fx:id="fromToggleGroup"/>
+        <ToggleGroup fx:id="toToggleGroup"/>
+    </fx:define>
+
+    <top>
+        <HBox fx:id="topBar" styleClass="top-bar" prefHeight="120" alignment="CENTER" spacing="40">
+            <Label text="Login Page" onMouseClicked="#onBackToMain" styleClass="top-bar-label"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+
+    <center>
+        <GridPane fx:id="transferGrid"
+                  hgap="12" vgap="10"
+                  alignment="CENTER"
+                  style="-fx-padding: 20;">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <Label text="Amount:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="amountField"
+                       promptText="e.g. 50.00"
+                       GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Target User ID:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="toAccountField"
+                       promptText="e.g. 123"
+                       GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="From:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <HBox spacing="12" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                <children>
+                    <RadioButton fx:id="fromAccountRadioButtonChecking"
+                                 text="Checking" toggleGroup="$fromToggleGroup"/>
+                    <RadioButton fx:id="fromAccountRadioButtonSavings"
+                                 text="Savings"  toggleGroup="$fromToggleGroup"/>
+                </children>
+            </HBox>
+
+            <Label text="To:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <HBox spacing="12" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                <children>
+                    <RadioButton fx:id="toAccountRadioButtonChecking"
+                                 text="Checking" toggleGroup="$toToggleGroup"/>
+                    <RadioButton fx:id="toAccountRadioButtonSavings"
+                                 text="Savings"  toggleGroup="$toToggleGroup"/>
+                </children>
+            </HBox>
+
+            <HBox spacing="12" alignment="CENTER_RIGHT"
+                  GridPane.rowIndex="4">
+                <children>
+                    <Button text="Confirm" onAction="#handleTransfer"/>
+                </children>
+            </HBox>
+        </GridPane>
+    </center>
+</BorderPane>
