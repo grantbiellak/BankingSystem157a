@@ -66,7 +66,6 @@
             <TextField fx:id="phoneNumberField" promptText="Phone Number..."
                        GridPane.rowIndex="15" GridPane.columnIndex="1" styleClass="text-field"/>
 
-            <!-- Bottom button centered on true middle by spanning both columns -->
             <Button fx:id="Submit" text="Create Account" onAction="#handleUserCreation"
                     GridPane.rowIndex="21" GridPane.columnIndex="0"
                     GridPane.columnSpan="2" GridPane.halignment="CENTER"
