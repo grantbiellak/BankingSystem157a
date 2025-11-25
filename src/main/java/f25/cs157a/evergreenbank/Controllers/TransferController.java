@@ -1,5 +1,6 @@
-package f25.cs157a.evergreenbank;
+package f25.cs157a.evergreenbank.Controllers;
 
+import f25.cs157a.evergreenbank.Databases.UserRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -24,13 +25,15 @@ public class TransferController {
 
     private int currentUserId;
 
-
+    // This is to set userId to be something else, we need it to be able to tell who the current user is
     public void setCurrentUserId(int id) {
         this.currentUserId = id;
     }
 
 
     // TODO make it lowkey fancy af
+    // Currently this just handles transfers
+    // The options are to transfer from x to y, and you can specify which account you want to transfer into
     @FXML
     private void handleTransfer() {
         System.out.println(currentUserId);
@@ -66,9 +69,11 @@ public class TransferController {
         }
     }
 
+
+    // TOP BAR METHOD TO BE CHANGED/REFACTORED
     @FXML
     private void onBackToMain(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/main-view.fxml"));
         Parent mainRoot = loader.load();
         Scene scene = ((Node) event.getSource()).getScene();
         scene.setRoot(mainRoot);

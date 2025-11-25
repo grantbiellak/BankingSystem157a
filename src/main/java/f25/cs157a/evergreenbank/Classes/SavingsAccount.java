@@ -1,6 +1,6 @@
-package f25.cs157a.evergreenbank;
+package f25.cs157a.evergreenbank.Classes;
 
-public class SavingsAccount extends Account{
+public class SavingsAccount extends Account {
 
     private double interest;
 

@@ -9,7 +9,7 @@
 <!-- This syntax for a comment is crazy -->
 <BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="f25.cs157a.evergreenbank.UserController">
+            fx:controller="f25.cs157a.evergreenbank.Controllers.UserController">
     <fx:define>
         <DialogPane fx:id="dialogPane"
                     prefWidth="400"
@@ -43,7 +43,7 @@
         </HBox>
     </top>
     <center>
-        <GridPane hgap="10" vgap="12" alignment="CENTER" styleClass="form">
+        <GridPane hgap="10" vgap="12" alignment="CENTER_LEFT" styleClass="form">
             <columnConstraints>
                 <ColumnConstraints halignment="RIGHT" />
                 <ColumnConstraints hgrow="ALWAYS" />
@@ -54,17 +54,20 @@
                    GridPane.rowIndex="0" GridPane.columnIndex="0"
                    GridPane.columnSpan="2" GridPane.halignment="CENTER" />
 
-            <Label text="Full Name:" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="label"/>
+            <Label text="Full Name:" GridPane.rowIndex="5" GridPane.columnIndex="0"
+                   styleClass="createAccountBoldedLabels"/>
             <TextField fx:id="fullNameField" promptText="Full name..."
-                       GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="text-field"/>
+                       GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="createAccountTextFields"/>
 
-            <Label text="Email Address:" GridPane.rowIndex="10" GridPane.columnIndex="0" styleClass="label"/>
+            <Label text="Email Address:" GridPane.rowIndex="10" GridPane.columnIndex="0"
+                   styleClass="createAccountBoldedLabels"/>
             <TextField fx:id="emailField" promptText="Email Address..."
-                       GridPane.rowIndex="10" GridPane.columnIndex="1" styleClass="text-field"/>
+                       GridPane.rowIndex="10" GridPane.columnIndex="1" styleClass="createAccountTextFields"/>
 
-            <Label text="Phone Number:" GridPane.rowIndex="15" GridPane.columnIndex="0" styleClass="label"/>
+            <Label text="Phone Number:" GridPane.rowIndex="15" GridPane.columnIndex="0"
+                   styleClass="createAccountBoldedLabels"/>
             <TextField fx:id="phoneNumberField" promptText="Phone Number..."
-                       GridPane.rowIndex="15" GridPane.columnIndex="1" styleClass="text-field"/>
+                       GridPane.rowIndex="15" GridPane.columnIndex="1" styleClass="createAccountTextFields"/>
 
             <Button fx:id="Submit" text="Create Account" onAction="#handleUserCreation"
                     GridPane.rowIndex="21" GridPane.columnIndex="0"
