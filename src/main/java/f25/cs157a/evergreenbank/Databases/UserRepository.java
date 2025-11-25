@@ -1,11 +1,11 @@
-package f25.cs157a.evergreenbank;
+package f25.cs157a.evergreenbank.Databases;
+import f25.cs157a.evergreenbank.Classes.User;
+
 import java.sql.*;
 
 
 public final class UserRepository {
 
-
-    // a lot of formatting jus tried to replicate DatabaseInit.java style idk
     private static final String url = "jdbc:mysql://localhost:3306/bankdb";
     private static final String user = "root";
     private static final String pass = "";

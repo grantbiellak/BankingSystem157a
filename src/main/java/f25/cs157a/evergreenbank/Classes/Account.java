@@ -1,4 +1,4 @@
-package f25.cs157a.evergreenbank;
+package f25.cs157a.evergreenbank.Classes;
 
 public abstract class Account {
     private double balance;

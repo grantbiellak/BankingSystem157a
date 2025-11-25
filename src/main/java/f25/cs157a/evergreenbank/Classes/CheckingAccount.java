@@ -1,6 +1,6 @@
-package f25.cs157a.evergreenbank;
+package f25.cs157a.evergreenbank.Classes;
 
-public class CheckingAccount extends Account{
+public class CheckingAccount extends Account {
 
     public CheckingAccount(double balance) {
         super(balance);

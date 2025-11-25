@@ -1,18 +1,20 @@
-package f25.cs157a.evergreenbank;
+package f25.cs157a.evergreenbank.Databases;
 
 import java.sql.*;
 
 public class DatabaseInit {
 
+    // initialize the databases
     public static void initialize(){
         String url  = "jdbc:mysql://localhost:3306/";
-        String user = "root";        // <-- your user
+        String user = "root";
         String pass = "";
-
         try(Connection conn = DriverManager.getConnection(url,user,pass);
             Statement stmt = conn.createStatement()){
+            // TODO Add this to method we can initialize in launcher
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS bankdb");
             stmt.executeUpdate("USE bankdb");
+
             String createUsers = """
                     CREATE TABLE IF NOT EXISTS users(
                         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -23,16 +25,6 @@ public class DatabaseInit {
                         )
                     """;
             stmt.executeUpdate(createUsers);
-            String query = "SELECT * FROM users";
-            try (ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String name = rs.getString("full_name");
-                    String email = rs.getString("email");
-                    String phone = rs.getString("phone");
-                    System.out.println(id + " | " + name + " | " + email + " | " + phone);
-                }
-            }
 
             String createAccounts = """
                 CREATE TABLE IF NOT EXISTS accounts(
@@ -45,10 +37,6 @@ public class DatabaseInit {
                 )
             """;
             stmt.executeUpdate(createAccounts);
-
-            System.out.println("Database initialized successfully.");
-
-
         }
         catch(SQLException e){
             e.printStackTrace();

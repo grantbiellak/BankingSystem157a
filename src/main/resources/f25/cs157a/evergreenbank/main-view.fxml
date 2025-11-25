@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<!-- This is so obvious ICL -->
-
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<BorderPane xmlns="http://javafx.com/javafx"
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="f25.cs157a.evergreenbank.UserController">
+            fx:controller="f25.cs157a.evergreenbank.Controllers.MainController">
     <top>
         <HBox fx:id="topBar" styleClass="top-bar" prefHeight="120" BorderPane.alignment="CENTER_LEFT">
             <Pane HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>
     <center>
-        <VBox spacing="10" style="-fx-padding: 100 250 0 0;">
-            <Button fx:id="createaccountbutton" text="Create Account" onAction="#onCreateUser"/>
-            <Button fx:id="signinbutton" text="Sign In" onAction="#onSignIn"/>
-        </VBox>
+        <GridPane hgap="10" vgap="12" alignment="CENTER_LEFT" styleClass="signInForm"
+                  BorderPane.alignment="CENTER_LEFT">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <Label text="Full Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="fullNameField" promptText="Your full name"
+                       GridPane.rowIndex="0" GridPane.columnIndex="1"
+                       styleClass="createAccountTextFields"/>
+
+            <Label text="User ID:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="userIdField" promptText="e.g. 12"
+                       GridPane.rowIndex="1" GridPane.columnIndex="1"
+                       styleClass="createAccountTextFields"/>
+
+            <Button text="Sign In" onAction="#handleSignIn"
+                    GridPane.rowIndex="3" GridPane.columnIndex="0"
+                    GridPane.columnSpan="2" GridPane.halignment="CENTER"
+                    styleClass="user-buttons"/>
+
+            <Label fx:id="errorLabel" text="*Invalid user ID + full name"
+                   visible="false" styleClass="error-label"
+                   GridPane.rowIndex="5" GridPane.columnIndex="0"
+                   GridPane.columnSpan="2" GridPane.halignment="CENTER"/>
+            <Label fx:id="createaccountbutton" text="Register new account"
+                   GridPane.rowIndex="2" GridPane.columnIndex="0"
+                   GridPane.columnSpan="2" GridPane.halignment="CENTER"
+                   onMouseClicked="#onCreateUser" styleClass="create-new-account-labels"/>
+        </GridPane>
     </center>
+
 </BorderPane>

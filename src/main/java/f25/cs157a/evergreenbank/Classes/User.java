@@ -1,6 +1,4 @@
-package f25.cs157a.evergreenbank;
-
-import java.util.Random;
+package f25.cs157a.evergreenbank.Classes;
 
 public class User {
 

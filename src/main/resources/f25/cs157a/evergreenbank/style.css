@@ -1,46 +1,4 @@
-/* This is all just styling, none of it is set in stone, this is pretty easy we should use it*/
-#createaccountbutton {
-    -fx-background-color: #000000;
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-font-weight: 600;
-    -fx-background-radius: 15;
-    -fx-padding: 16 24 16 24;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 8, 0, 0, 2);
-}
-
-#createaccountbutton:hover {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.35), 12, 0, 0, 4);
-    -fx-translate-y: -2;
-}
-
-#createaccountbutton:pressed {
-    -fx-translate-y: 0;
-    -fx-effect: none;
-}
-
-#signinbutton {
-    -fx-background-color: #000000;
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-font-weight: 600;
-    -fx-background-radius: 15;
-    -fx-padding: 16 24 16 24;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 8, 0, 0, 2);
-}
-
-#signinbutton:hover {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.35), 12, 0, 0, 4);
-    -fx-translate-y: -2;
-}
-
-#signinbutton:pressed {
-    -fx-translate-y: 0;
-    -fx-effect: none;
-}
-
+/* The sign in button on the main screen */
 .user-buttons {
     -fx-background-color: #e2f4e1;
     -fx-background-radius: 3;
@@ -65,6 +23,7 @@
     -fx-effect: dropshadow(three-pass-box, rgba(8, 255, 0, 0.15), 4, 0, 0, 0);
 }
 
+/* The grid pane that you create an account in */
 .form {
     -fx-background-color: white;
     -fx-padding: 20;
@@ -74,11 +33,21 @@
     -fx-max-height: 500;
 }
 
-.label {
+.signInForm {
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+    -fx-padding: 20;
+    -fx-border-radius: 20;
+    -fx-background-radius: 15;
+    -fx-max-width: 600;
+    -fx-max-height: 500;
+}
+
+/* The text on the account label */
+.createAccountBoldedLabels {
     -fx-font-weight: bold;
 }
 
-.text-field {
+.createAccountTextFields {
     -fx-pref-width: 300;
     -fx-padding: 12;
     -fx-border-color: #ccc;
@@ -93,16 +62,6 @@
     -fx-background-position: 0px center;
     -fx-background-size: 150px auto;
     -fx-padding: 10 16 10 64;
-}
-
-.title {
-    -fx-text-fill: white;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-}
-
-.stack-pane, .content-root {
-    -fx-padding: 24;
 }
 
 .top-bar-label {
@@ -139,4 +98,15 @@
 
 .creation-labels{
     -fx-font-weight: bold;
+}
+
+.create-new-account-labels {
+    -fx-font-weight: bold;
+    -fx-font-family: "Copperplate", "Georgia", system-ui, sans-serif;
+    -fx-font-size: 12;
+    -fx-text-fill: #6695ec;
+}
+.create-new-account-labels:hover {
+    -fx-text-fill: rgba(99, 144, 232, 0.65);
+    -fx-underline: true;
 }

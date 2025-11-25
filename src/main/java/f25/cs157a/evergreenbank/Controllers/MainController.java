@@ -1,5 +1,6 @@
-package f25.cs157a.evergreenbank;
+package f25.cs157a.evergreenbank.Controllers;
 
+import f25.cs157a.evergreenbank.Databases.UserRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,12 +9,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class SignInController {
-    
+public class MainController {
+
+
     @FXML
     private TextField userIdField;
     @FXML
@@ -21,11 +24,10 @@ public class SignInController {
     @FXML
     private Label errorLabel;
 
-    // for sign in button
+    // This is for the sign in button
     @FXML
     private void handleSignIn(ActionEvent event) throws IOException {
 
-        // clear prev error msgs idk
         if (errorLabel != null) {
             errorLabel.setVisible(false);
         }
@@ -72,21 +74,22 @@ public class SignInController {
             return;
         }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/dashboard.fxml"));
         Parent dashboardRoot = loader.load();
         DashboardController controller = loader.getController();
-        controller.setData(nameText, view);
+        controller.setData(view);
 
         Scene scene = ((Node) event.getSource()).getScene();
         scene.setRoot(dashboardRoot);
     }
 
-
+    // This is what sends us to the new scene when we create a new user
     @FXML
-    private void onBack(javafx.scene.input.MouseEvent e) throws IOException {
-        Parent main = FXMLLoader.load(getClass().getResource("main-view.fxml"));
-        ((Node)e.getSource()).getScene().setRoot(main);
+    private void onCreateUser(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/user.fxml"));
+        Parent userRoot = loader.load();
+        Scene scene = ((Node) event.getSource()).getScene();
+        scene.setRoot(userRoot);
     }
-
 
 }
