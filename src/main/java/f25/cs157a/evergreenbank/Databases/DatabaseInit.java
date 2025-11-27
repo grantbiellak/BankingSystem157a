@@ -37,6 +37,18 @@ public class DatabaseInit {
                 )
             """;
             stmt.executeUpdate(createAccounts);
+
+            String createTransfers = """
+                CREATE TABLE IF NOT EXISTS transfers(
+                    transfer_id INT AUTO_INCREMENT PRIMARY KEY,
+                    sender_id INT NOT NULL,
+                    receiver_id INT NOT NULL,
+                    amount DOUBLE NOT NULL,
+                    date DATETIME NOT NULL,
+                    status ENUM('SUCCESS', 'FAIL') NOT NULL
+                    )
+            """;
+            stmt.executeUpdate(createTransfers);
         }
         catch(SQLException e){
             e.printStackTrace();

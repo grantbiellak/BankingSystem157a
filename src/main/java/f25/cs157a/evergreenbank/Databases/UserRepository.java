@@ -169,9 +169,7 @@ public final class UserRepository {
                     ps.setInt(1, fromUserId);
                     ps.setString(2, fromType);
                     try (ResultSet rs = ps.executeQuery()) {
-                        if (!rs.next()) {
-                            throw new SQLException("Source account not found");
-                        }
+                        if (!rs.next()) throw new SQLException("Source account not found");
                         fromId = rs.getInt("id");
                         fromBalance = rs.getDouble("balance");
                     }
@@ -181,37 +179,62 @@ public final class UserRepository {
                     ps.setInt(1, toUserId);
                     ps.setString(2, toType);
                     try (ResultSet rs = ps.executeQuery()) {
-                        if (!rs.next()) {
-                            throw new SQLException("Destination account not found");
-                        }
+                        if (!rs.next()) throw new SQLException("Destination account not found");
                         toId = rs.getInt("id");
                     }
                 }
-                if (fromId.equals(toId)) {
-                    throw new SQLException("From and To accounts must differ");
-                }
-                if (fromBalance < amount) {
-                    throw new SQLException("Insufficient funds");
-                }
+
+                if (fromId.equals(toId)) throw new SQLException("From and To accounts must differ");
+                if (fromBalance < amount) throw new SQLException("Insufficient funds");
 
                 try (PreparedStatement debit  = conn.prepareStatement(
                         "UPDATE accounts SET balance = balance - ? WHERE id = ?");
                      PreparedStatement credit = conn.prepareStatement(
-                             "UPDATE accounts SET balance = balance + ? WHERE id = ?")) {
+                             "UPDATE accounts SET balance = balance + ? WHERE id = ?");
+                ) {
+                    debit.setDouble(1, amount);
+                    debit.setInt(2, fromId);
+                    debit.executeUpdate();
 
-                    debit.setDouble(1, amount);  debit.setInt(2, fromId); debit.executeUpdate();
-                    credit.setDouble(1, amount); credit.setInt(2, toId);  credit.executeUpdate();
+                    credit.setDouble(1, amount);
+                    credit.setInt(2, toId);
+                    credit.executeUpdate();
                 }
+
+                try (PreparedStatement ps = conn.prepareStatement(
+                        "INSERT INTO transfers (sender_id, receiver_id, amount, date, status) " +
+                                "VALUES (?, ?, ?, NOW(), 'SUCCESS')")) {
+                    ps.setInt(1, fromUserId);
+                    ps.setInt(2, toUserId);
+                    ps.setDouble(3, amount);
+                    ps.executeUpdate();
+                }
+
                 conn.commit();
                 return true;
+
             } catch (SQLException e) {
+
                 conn.rollback();
+
+                try (PreparedStatement ps = conn.prepareStatement(
+                        "INSERT INTO transfers (sender_id, receiver_id, amount, date, status) " +
+                                "VALUES (?, ?, ?, NOW(), 'FAIL')")) {
+                    ps.setInt(1, fromUserId);
+                    ps.setInt(2, toUserId);
+                    ps.setDouble(3, amount);
+                    ps.executeUpdate();
+                } catch (SQLException ignored) {
+                }
+
                 throw e;
+
             } finally {
                 conn.setAutoCommit(true);
             }
         }
     }
+
 
     private UserRepository() {
         // private constructor to prevent instantiation
