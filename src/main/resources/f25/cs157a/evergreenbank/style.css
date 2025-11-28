@@ -110,3 +110,10 @@
     -fx-text-fill: rgba(99, 144, 232, 0.65);
     -fx-underline: true;
 }
+
+.arrow {
+    -fx-background-image: url("greenArrow.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-cursor: hand;
+}
