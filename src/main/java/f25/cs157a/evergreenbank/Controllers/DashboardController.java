@@ -16,6 +16,8 @@ public class DashboardController {
     @FXML private Label checkingBalanceLabel;
     @FXML private Label savingsBalanceLabel;
 
+    private double checkingBalance;
+    private double savingsBalance;
     private int currentUserId;
 
     // Set the data from the view, this will display user info when we open the dashboard(after sign in)
@@ -23,9 +25,11 @@ public class DashboardController {
         currentUserId = view.userID; // This is the most important part of this method, allows us to show userID to other controllers
         if (checkingBalanceLabel != null) {
             checkingBalanceLabel.setText(String.format("Checking Balance: $%.2f", view.checkingBalance));
+            checkingBalance = view.checkingBalance;
         }
         if (savingsBalanceLabel != null) {
             savingsBalanceLabel.setText(String.format("Savings Balance: $%.2f", view.savingsBalance));
+            savingsBalance = view.savingsBalance;
         }
     }
 
@@ -34,9 +38,12 @@ public class DashboardController {
     private void onTransfer(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/transfer.fxml"));
         Parent userRoot = loader.load();
+        TransferController controller = loader.getController();
+        controller.setCurrentUserId(currentUserId);
+        controller.setSavingsBalance(savingsBalance);
+        controller.setCheckingBalance(checkingBalance);
+        controller.loadAccountData();
         Scene scene = ((Node) event.getSource()).getScene();
-        TransferController ctrl = loader.getController();
-        ctrl.setCurrentUserId(currentUserId);
         scene.setRoot(userRoot);
     }
 

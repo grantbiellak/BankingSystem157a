@@ -113,7 +113,111 @@
 
 .arrow {
     -fx-background-image: url("greenArrow.png");
-    -fx-background-size: cover;
+    -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
     -fx-cursor: hand;
+}
+.account-card {
+    -fx-background-color: white;
+    -fx-padding: 20 30 20 30;
+    -fx-background-radius: 4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 2);
+    -fx-border-color: #f5a623 transparent transparent transparent;
+    -fx-border-width: 4 0 0 0;
+}
+
+.dropdown-card {
+    -fx-background-color: white;
+    -fx-padding: 20 30 20 30;
+    -fx-background-radius: 4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 2);
+    -fx-border-width: 4 0 0 0;
+}
+
+/* text styles */
+.account-type {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #00844d;
+}
+
+.account-number {
+    -fx-font-size: 20px;
+    -fx-text-fill: #777777;
+}
+
+.account-balance {
+    -fx-font-size: 32px;
+    -fx-text-fill: #333333;
+}
+
+.account-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555555;
+}
+
+.section-header {
+    -fx-font-size: 26px;
+    -fx-text-fill: #333333;
+}
+
+/* ComboBox used inside the account card on the right */
+.account-combo {
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-border-color: black;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-padding: 4 8 4 8;
+
+    -fx-font-size: 18px;      /* close to .account-type (20px) */
+    -fx-font-weight: bold;
+    -fx-text-fill: #00844d;   /* same green accent */
+}
+
+/* The text area of the combo (inner editor/cell) */
+.account-combo .list-cell {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #00844d;
+    -fx-background-color: transparent;
+}
+
+/* The dropdown arrow button area */
+.account-combo .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 6 0 6;
+}
+
+/* The little arrow icon itself */
+.account-combo .arrow {
+    -fx-background-color: #00844d;
+}
+
+/* Popup list */
+.account-combo .list-view {
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-border-color: #00844d;
+    -fx-border-radius: 4;
+}
+.account-combo .list-cell:hover {
+    -fx-background-color: #d8e6d2;
+}
+
+.underline-field {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 4 0;
+    -fx-border-color: transparent transparent #00844d transparent;
+    -fx-border-width: 0 0 2 0;
+
+    -fx-font-size: 18px;
+    -fx-text-fill: #333;
+}
+
+.underline-field:focused {
+    -fx-border-color: transparent transparent #005b33 transparent;
+    -fx-background-insets: 0;
 }
