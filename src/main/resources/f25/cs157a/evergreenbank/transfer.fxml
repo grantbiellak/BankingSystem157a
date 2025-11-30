@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
-<?import javafx.scene.image.ImageView?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="f25.cs157a.evergreenbank.Controllers.TransferController"
-            prefHeight="400.0" prefWidth="600.0">
-
-    <fx:define>
-        <ToggleGroup fx:id="fromToggleGroup"/>
-        <ToggleGroup fx:id="toToggleGroup"/>
-    </fx:define>
+            fx:controller="f25.cs157a.evergreenbank.Controllers.TransferController">
 
     <top>
         <HBox fx:id="topBar" styleClass="top-bar" prefHeight="120" alignment="CENTER" spacing="40">
@@ -21,55 +17,147 @@
     </top>
 
     <center>
-        <GridPane fx:id="transferGrid"
-                  hgap="12" vgap="10"
-                  alignment="CENTER"
-                  style="-fx-padding: 20;">
-            <columnConstraints>
-                <ColumnConstraints halignment="RIGHT"/>
-                <ColumnConstraints hgrow="ALWAYS"/>
-            </columnConstraints>
+        <StackPane alignment="TOP_CENTER">
+            <HBox spacing="80" alignment="TOP_CENTER">
+                <padding>
+                    <Insets top="80" right="0" bottom="0" left="0"/>
+                </padding>
 
-            <Label text="Amount:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextField fx:id="amountField"
-                       promptText="e.g. 50.00"
-                       GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <!-- LEFT: Transfer FROM -->
+                <VBox spacing="16" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
 
-            <Label text="Target User ID:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <TextField fx:id="toAccountField"
-                       promptText="e.g. 123"
-                       GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Transfer From Account"
+                           styleClass="section-header"/>
 
-            <Label text="From:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <HBox spacing="12" GridPane.rowIndex="2" GridPane.columnIndex="1">
-                <children>
-                    <RadioButton fx:id="fromAccountRadioButtonChecking"
-                                 text="Checking" toggleGroup="$fromToggleGroup"/>
-                    <RadioButton fx:id="fromAccountRadioButtonSavings"
-                                 text="Savings"  toggleGroup="$fromToggleGroup"/>
-                </children>
+                    <HBox fx:id="accountCard"
+                          spacing="20"
+                          alignment="CENTER_LEFT"
+                          styleClass="account-card"
+                          prefWidth="450" prefHeight="220"
+                          maxWidth="450" maxHeight="220">
+
+                        <VBox spacing="16" alignment="CENTER_LEFT">
+
+                            <HBox spacing="5" alignment="CENTER_LEFT">
+                                <Label fx:id="mainType" styleClass="account-type"/>
+                                <Label fx:id="mainNumber" styleClass="account-number"/>
+                            </HBox>
+
+                            <Label fx:id="mainBalance" styleClass="account-balance"/>
+                            <Label fx:id="mainSub" styleClass="account-label"/>
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <Pane fx:id="arrow"
+                              onMouseClicked="#toggleArrow"
+                              prefWidth="28" prefHeight="28"
+                              styleClass="arrow"
+                              rotate="-90"/>
+                    </HBox>
+
+                    <HBox fx:id="dropdownCard"
+                          spacing="20"
+                          alignment="CENTER_LEFT"
+                          styleClass="dropdown-card"
+                          prefWidth="450" prefHeight="140"
+                          maxWidth="450" maxHeight="140"
+                          visible="false" managed="false"
+                          onMouseClicked="#onDropdownAccountClicked">
+
+                        <VBox spacing="16" alignment="CENTER_LEFT">
+                            <HBox spacing="5" alignment="CENTER_LEFT">
+                                <Label fx:id="dropType" styleClass="account-type"/>
+                                <Label fx:id="dropNumber" styleClass="account-number"/>
+                            </HBox>
+
+                            <Label fx:id="dropBalance" styleClass="account-balance"/>
+                            <Label fx:id="dropSub" styleClass="account-label"/>
+                        </VBox>
+                    </HBox>
+
+                </VBox>
+
+                <!-- RIGHT: Transfer TO -->
+                <VBox spacing="16" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+
+                    <Label text="Transfer To Account"
+                           styleClass="section-header"/>
+
+                    <HBox fx:id="transferTo"
+                          spacing="20"
+                          alignment="CENTER_LEFT"
+                          styleClass="account-card"
+                          prefWidth="450" prefHeight="220"
+                          maxWidth="450" maxHeight="220">
+
+                        <VBox spacing="16" alignment="CENTER_LEFT">
+
+                            <!-- Row 1: account type + user id -->
+                            <HBox spacing="20" alignment="CENTER_LEFT">
+                                <ComboBox fx:id="toAccountTypeCombo"
+                                          prefWidth="160"
+                                          styleClass="account-combo">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="Checking"/>
+                                            <String fx:value="Savings"/>
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+
+                                <HBox spacing="6" alignment="CENTER_LEFT">
+                                    <Label text="User ID:" styleClass="account-label"/>
+
+                                    <TextField fx:id="toUserIdField"
+                                               promptText="i.e 1"
+                                               styleClass="underline-field"
+                                               prefWidth="100"/>
+                                </HBox>
+                            </HBox>
+
+                            <!-- Placeholders but they change the spacing so I need them-->
+                            <Label fx:id="toAccountNumberLabel"
+                                   styleClass="account-number"/>
+
+                            <Label fx:id="toAccountBalanceLabel"
+                                   styleClass="account-balance"/>
+
+                            <Label fx:id="toAccountSubLabel"
+                                   styleClass="account-label"/>
+                        </VBox>
+
+                    </HBox>
+
+                    <HBox spacing="16" alignment="CENTER_LEFT">
+                        <padding>
+                            <Insets top="-150" left="160"/>
+                        </padding>
+
+                        <Label text="Amount:" styleClass="account-label"/>
+                        <Label text="\$" styleClass="account-label"/>
+                        <TextField fx:id="toAmountField"
+                                   promptText="0.00"
+                                   styleClass="underline-field"
+                                   prefWidth="200"/>
+                    </HBox>
+                </VBox>
             </HBox>
-
-            <Label text="To:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-            <HBox spacing="12" GridPane.rowIndex="3" GridPane.columnIndex="1">
-                <children>
-                    <RadioButton fx:id="toAccountRadioButtonChecking"
-                                 text="Checking" toggleGroup="$toToggleGroup"/>
-                    <RadioButton fx:id="toAccountRadioButtonSavings"
-                                 text="Savings"  toggleGroup="$toToggleGroup"/>
-                </children>
-            </HBox>
-
-            <HBox spacing="12" alignment="CENTER_RIGHT"
-                  GridPane.rowIndex="4">
-                <children>
-                    <Button text="Confirm" onAction="#handleTransfer"/>
-                </children>
-            </HBox>
-
-            <Pane fx:id="arrow" onMouseClicked="#toggleArrow"
-                  prefWidth="16" prefHeight="16"
-                  styleClass="arrow" GridPane.rowIndex="3" GridPane.columnIndex="10"/>
-        </GridPane>
+        </StackPane>
     </center>
+    <bottom>
+        <HBox spacing="20" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="20" right="40" bottom="40" left="80"/>
+            </padding>
+
+            <Button text="Back"
+                    onAction="#backToDashboard"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="Transfer"
+                    onAction="#handleTransfer"/>
+        </HBox>
+    </bottom>
 </BorderPane>
