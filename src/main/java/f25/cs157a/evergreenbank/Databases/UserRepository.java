@@ -286,6 +286,37 @@ public final class UserRepository {
         }
     }
 
+    public static boolean deleteUser(int userId) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+            conn.setAutoCommit(false);
+
+            try {
+                // Delete accounts associated with user
+                String deleteAccounts = "DELETE FROM accounts WHERE user_id = ?";
+                try (PreparedStatement ps = conn.prepareStatement(deleteAccounts)) {
+                    ps.setInt(1, userId);
+                    ps.executeUpdate();
+                }
+
+                // Delete user
+                String deleteUser = "DELETE FROM users WHERE id = ?";
+                try (PreparedStatement ps = conn.prepareStatement(deleteUser)) {
+                    ps.setInt(1, userId);
+                    ps.executeUpdate();
+                }
+
+                conn.commit();
+                return true;
+
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        }
+    }
+
     private UserRepository() {
         // private constructor to prevent instantiation
     }

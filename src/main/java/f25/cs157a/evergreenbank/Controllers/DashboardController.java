@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class DashboardController {
 
@@ -77,7 +78,40 @@ public class DashboardController {
         scene.setRoot(userRoot);
     }
 
+    @FXML
+    private void handleUserDeletion(ActionEvent event) {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Delete User");
+        confirmation.setHeaderText("Are you sure you want to delete this user?");
+        confirmation.setContentText("You will permanently lose access to all your account funds.");
+    
+        if (confirmation.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+            try {
+                boolean success = UserRepository.deleteUser(currentUserId);
+                if (success) {
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("User Deleted");
+                    successAlert.setHeaderText(null);
+                    successAlert.setContentText("The user has been successfully deleted.");
+                    successAlert.showAndWait();
 
+                    // Navigate back to the main view
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/main-view.fxml"));
+                    Parent mainRoot = loader.load();
+                    Scene scene = ((Node) event.getSource()).getScene();
+                    scene.setRoot(mainRoot);
+                }
+            } catch (SQLException | IOException e) {
+                e.printStackTrace();
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Error");
+                errorAlert.setHeaderText("Failed to delete user.");
+                errorAlert.setContentText("An error occurred while deleting the user.");
+                errorAlert.showAndWait();
+            }
+        }
+    }
+   
     // This onBack sends us back to the main view, it is the top bar onBack that we have been using
     // THIS IS A TOP BAR METHOD (future grant)
     @FXML
@@ -85,4 +119,6 @@ public class DashboardController {
         Parent main = FXMLLoader.load(getClass().getResource("/f25/cs157a/evergreenbank/main-view.fxml"));
         ((Node)e.getSource()).getScene().setRoot(main);
     }
+
+    
 }
