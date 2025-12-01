@@ -29,6 +29,7 @@
             </HBox>
             <Button text="Add Money" onAction="#addMoneyToAccounts" GridPane.columnIndex="6" GridPane.rowIndex="3"/>
             <Button text="Transfer" onAction="#onTransfer"/>
+            <Button text="Delete User" onAction="#handleUserDeletion" GridPane.columnIndex="6" GridPane.rowIndex="4"/>
             <Label fx:id="checkingRoutingLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
             <Label text="Checking Balance:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
             <Label fx:id="checkingBalanceLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
@@ -36,6 +37,8 @@
 
             <Label text="Savings Balance:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
             <Label fx:id="savingsBalanceLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+
         </GridPane>
     </center>
 </BorderPane>
