@@ -1,44 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="f25.cs157a.evergreenbank.Controllers.DashboardController">
-
     <top>
         <HBox spacing="40" alignment="CENTER" prefHeight="120" styleClass="top-bar">
-            <Label fx:id="welcomeName" text="Welcome" styleClass="top-bar-label" onMouseClicked="#onBack"/>
+            <Label fx:id="welcomeName"
+                   text="Welcome"
+                   styleClass="top-bar-label"
+                   onMouseClicked="#onBack"/>
             <Pane HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>
-
     <center>
-        <GridPane hgap="16" vgap="12" alignment="CENTER" styleClass="form">
-            <columnConstraints>
-                <ColumnConstraints halignment="RIGHT"/>
-                <ColumnConstraints hgrow="ALWAYS"/>
-            </columnConstraints>
-            <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="6" GridPane.rowIndex="1">
-                <Label text="Add to Checking: $" />
-                <TextField fx:id="addCheckingField" promptText="0.00" prefWidth="100"/>
-            </HBox>
+        <StackPane alignment="TOP_CENTER">
+            <VBox spacing="40" alignment="TOP_CENTER">
+                <padding>
+                    <Insets top="80" right="0" bottom="40" left="0"/>
+                </padding>
+                <VBox spacing="0" alignment="TOP_CENTER">
 
-            <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="6" GridPane.rowIndex="2">
-                <Label text="Add to Savings: $" />
-                <TextField fx:id="addSavingsField" promptText="0.00" prefWidth="100"/>
-            </HBox>
-            <Button text="Add Money" onAction="#addMoneyToAccounts" GridPane.columnIndex="6" GridPane.rowIndex="3"/>
-            <Button text="Transfer" onAction="#onTransfer"/>
-            <Button text="Delete User" onAction="#handleUserDeletion" GridPane.columnIndex="6" GridPane.rowIndex="4"/>
-            <Label fx:id="checkingRoutingLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-            <Label text="Checking Balance:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <Label fx:id="checkingBalanceLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-            <Label fx:id="savingsRoutingLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="Account Overview"
+                           styleClass="section-header"/>
 
-            <Label text="Savings Balance:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-            <Label fx:id="savingsBalanceLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    <HBox fx:id="accountCard"
+                          spacing="20"
+                          alignment="CENTER_LEFT"
+                          styleClass="account-card"
+                          prefWidth="450" prefHeight="220"
+                          maxWidth="450" maxHeight="220">
 
+                        <VBox spacing="16" alignment="CENTER_LEFT">
 
-        </GridPane>
+                            <HBox spacing="5" alignment="CENTER_LEFT">
+                                <Label fx:id="mainType" styleClass="account-type"/>
+                                <Label fx:id="mainNumber" styleClass="account-number"/>
+                            </HBox>
+
+                            <Label fx:id="mainBalance" styleClass="account-balance"/>
+
+                            <Label fx:id="mainSub" styleClass="account-label"/>
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+                    </HBox>
+
+                    <HBox spacing="20"
+                          alignment="CENTER_LEFT"
+                          styleClass="dropdown-card"
+                          prefWidth="450" prefHeight="140"
+                          maxWidth="450" maxHeight="140">
+
+                        <VBox spacing="16" alignment="CENTER_LEFT">
+                            <HBox spacing="5" alignment="CENTER_LEFT">
+                                <Label fx:id="dropType" styleClass="account-type"/>
+                                <Label fx:id="dropNumber" styleClass="account-number"/>
+                            </HBox>
+
+                            <Label fx:id="dropBalance" styleClass="account-balance"/>
+                            <Label fx:id="dropSub" styleClass="account-label"/>
+                        </VBox>
+                    </HBox>
+
+                </VBox>
+
+                <VBox spacing="16" alignment="TOP_CENTER">
+
+                    <Label text="Manage Funds"
+                           styleClass="section-header"/>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Add to Checking: $" />
+                        <TextField fx:id="addCheckingField"
+                                   promptText="0.00"
+                                   prefWidth="100"/>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Add to Savings: $" />
+                        <TextField fx:id="addSavingsField"
+                                   promptText="0.00"
+                                   prefWidth="100"/>
+                    </HBox>
+
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Button text="Add Money"
+                                onAction="#addMoneyToAccounts"/>
+
+                        <Button text="Transfer"
+                                onAction="#onTransfer"/>
+
+                        <Button text="Delete User"
+                                onAction="#handleUserDeletion"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </StackPane>
     </center>
 </BorderPane>

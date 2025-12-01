@@ -93,8 +93,6 @@
                           maxWidth="450" maxHeight="220">
 
                         <VBox spacing="16" alignment="CENTER_LEFT">
-
-                            <!-- Row 1: account type + user id -->
                             <HBox spacing="20" alignment="CENTER_LEFT">
                                 <ComboBox fx:id="toAccountTypeCombo"
                                           prefWidth="160"

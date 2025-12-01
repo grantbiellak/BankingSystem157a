@@ -35,6 +35,7 @@ public class TransferController {
     @FXML private Label dropBalance;
     @FXML private Label dropSub;
     @FXML private Label errorLabel;
+
     private int currentUserId;
     private double savingsBalance;
     private double checkingBalance;
@@ -52,7 +53,6 @@ public class TransferController {
         this.checkingBalance = balance;
     }
 
-    // populate the cards (call this after setting userId + balances)
     public void loadAccountData() {
         mainBalance.setText(String.format("$%.2f", checkingBalance));
         dropBalance.setText(String.format("$%.2f", savingsBalance));
@@ -66,6 +66,7 @@ public class TransferController {
         String idText = "User " + currentUserId;
         mainNumber.setText(idText);
         dropNumber.setText(idText);
+
         if (toAccountTypeCombo != null && toAccountTypeCombo.getItems().contains("Checking")) {
             toAccountTypeCombo.setValue("Checking");
         }
@@ -74,6 +75,8 @@ public class TransferController {
     @FXML
     private void handleTransfer() {
         try {
+            errorLabel.setVisible(false);
+
             String fromChoice = mainType.getText();
             if (fromChoice == null || fromChoice.isBlank()) {
                 throw new IllegalArgumentException("From account type is not set.");
@@ -84,13 +87,11 @@ public class TransferController {
             }
             String toChoice = toAccountTypeCombo.getValue();
 
-            // amount
             if (toAmountField == null || toAmountField.getText().isBlank()) {
                 throw new IllegalArgumentException("Please enter an amount.");
             }
             double amount = Double.parseDouble(toAmountField.getText().trim());
 
-            // target user id
             if (toUserIdField == null || toUserIdField.getText().isBlank()) {
                 throw new IllegalArgumentException("Please enter a target user ID.");
             }
@@ -106,8 +107,32 @@ public class TransferController {
 
             if (success) {
                 System.out.println("Transfer completed successfully!");
-            } else {
+
+                if (fromChoice.equalsIgnoreCase("CHECKING")) {
+                    checkingBalance -= amount;
+                }
+                else if (fromChoice.equalsIgnoreCase("SAVINGS")) {
+                    savingsBalance -= amount;
+                }
+
+                if (targetUserId == currentUserId) {
+                    if (toChoice.equalsIgnoreCase("CHECKING")) {
+                        checkingBalance += amount;
+                    }
+                    else if (toChoice.equalsIgnoreCase("SAVINGS")) {
+                        savingsBalance += amount;
+                    }
+                }
+
+                refreshAccountCards();
+
+                toAmountField.clear();
+
+            }
+            else {
                 System.out.println("Transfer failed.");
+                errorLabel.setText("Transfer failed");
+                errorLabel.setVisible(true);
             }
 
         } catch (NumberFormatException e) {
@@ -116,15 +141,19 @@ public class TransferController {
             errorLabel.setVisible(true);
         } catch (IllegalArgumentException e) {
             System.err.println("Invalid input: " + e.getMessage());
-            errorLabel.setText("Invalid input");
+            errorLabel.setText(e.getMessage());
             errorLabel.setVisible(true);
         } catch (SQLException e) {
             System.err.println("Database error during transfer: " + e.getMessage());
-            if(currentUserId == Integer.parseInt(toUserIdField.getText().trim())){
-                errorLabel.setText("Cannot transfer to the same account");
-            }
-            else{
-                errorLabel.setText("Insufficient funds");
+            try {
+                if (currentUserId == Integer.parseInt(toUserIdField.getText().trim())) {
+                    errorLabel.setText("Cannot transfer to the same account");
+                }
+                else {
+                    errorLabel.setText("Insufficient funds");
+                }
+            } catch (NumberFormatException ex) {
+                errorLabel.setText("Database error");
             }
             errorLabel.setVisible(true);
         } catch (Exception e) {
@@ -134,6 +163,26 @@ public class TransferController {
         }
     }
 
+    private void refreshAccountCards() {
+        applyBalanceForType(mainType, mainBalance);
+        applyBalanceForType(dropType, dropBalance);
+    }
+
+    private void applyBalanceForType(Label typeLabel, Label balanceLabel) {
+        if (typeLabel == null || balanceLabel == null || typeLabel.getText() == null) return;
+
+        String typeText = typeLabel.getText().trim().toUpperCase();
+        switch (typeText) {
+            case "CHECKING":
+                balanceLabel.setText(String.format("$%.2f", checkingBalance));
+                break;
+            case "SAVINGS":
+                balanceLabel.setText(String.format("$%.2f", savingsBalance));
+                break;
+            default:
+                break;
+        }
+    }
 
     @FXML
     private void toggleArrow() {
@@ -163,10 +212,15 @@ public class TransferController {
         b.setText(temp);
     }
 
+
     @FXML
     private void backToDashboard(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/dashboard.fxml"));
         Parent mainRoot = loader.load();
+
+        DashboardController controller = loader.getController();
+        controller.setData(currentUserId, checkingBalance, savingsBalance);
+
         Scene scene = ((Node) event.getSource()).getScene();
         scene.setRoot(mainRoot);
     }
