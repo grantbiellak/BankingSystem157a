@@ -235,6 +235,56 @@ public final class UserRepository {
         }
     }
 
+    public static void depositToAccounts(int userId, double checkingAmount, double savingsAmount)
+            throws SQLException {
+
+        if (checkingAmount < 0 || savingsAmount < 0) {
+            throw new IllegalArgumentException("Deposit amounts cannot be negative.");
+        }
+
+        if (checkingAmount == 0 && savingsAmount == 0) {
+            return;
+        }
+
+        final String url = UserRepository.url;
+        final String user = UserRepository.user;
+        final String pass = UserRepository.pass;
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+
+            conn.setAutoCommit(false);
+            try {
+                if (checkingAmount > 0) {
+                    try (PreparedStatement ps = conn.prepareStatement(
+                            "UPDATE accounts SET balance = balance + ? " +
+                                    "WHERE user_id = ? AND account_type = 'CHECKING'")) {
+                        ps.setDouble(1, checkingAmount);
+                        ps.setInt(2, userId);
+                        ps.executeUpdate();
+                    }
+                }
+
+                // Update savings
+                if (savingsAmount > 0) {
+                    try (PreparedStatement ps = conn.prepareStatement(
+                            "UPDATE accounts SET balance = balance + ? " +
+                                    "WHERE user_id = ? AND account_type = 'SAVINGS'")) {
+                        ps.setDouble(1, savingsAmount);
+                        ps.setInt(2, userId);
+                        ps.executeUpdate();
+                    }
+                }
+
+                conn.commit();
+
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        }
+    }
 
     private UserRepository() {
         // private constructor to prevent instantiation

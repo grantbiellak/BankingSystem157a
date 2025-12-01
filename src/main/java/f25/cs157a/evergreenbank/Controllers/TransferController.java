@@ -24,20 +24,17 @@ public class TransferController {
     @FXML private ComboBox<String> toAccountTypeCombo;
     @FXML private TextField toUserIdField;
     @FXML private TextField toAmountField;
-
     @FXML private Pane arrow;
     @FXML private HBox dropdownCard;
-
     @FXML private Label mainType;
     @FXML private Label mainNumber;
     @FXML private Label mainBalance;
     @FXML private Label mainSub;
-
     @FXML private Label dropType;
     @FXML private Label dropNumber;
     @FXML private Label dropBalance;
     @FXML private Label dropSub;
-
+    @FXML private Label errorLabel;
     private int currentUserId;
     private double savingsBalance;
     private double checkingBalance;
@@ -115,12 +112,25 @@ public class TransferController {
 
         } catch (NumberFormatException e) {
             System.err.println("Invalid number in amount or user id field: " + e.getMessage());
+            errorLabel.setText("Invalid character or user id field");
+            errorLabel.setVisible(true);
         } catch (IllegalArgumentException e) {
             System.err.println("Invalid input: " + e.getMessage());
+            errorLabel.setText("Invalid input");
+            errorLabel.setVisible(true);
         } catch (SQLException e) {
             System.err.println("Database error during transfer: " + e.getMessage());
+            if(currentUserId == Integer.parseInt(toUserIdField.getText().trim())){
+                errorLabel.setText("Cannot transfer to the same account");
+            }
+            else{
+                errorLabel.setText("Insufficient funds");
+            }
+            errorLabel.setVisible(true);
         } catch (Exception e) {
             System.err.println("Unexpected error: " + e.getMessage());
+            errorLabel.setText("Unexpected error during transfer");
+            errorLabel.setVisible(true);
         }
     }
 

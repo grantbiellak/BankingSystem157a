@@ -18,6 +18,16 @@
                 <ColumnConstraints halignment="RIGHT"/>
                 <ColumnConstraints hgrow="ALWAYS"/>
             </columnConstraints>
+            <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                <Label text="Add to Checking: $" />
+                <TextField fx:id="addCheckingField" promptText="0.00" prefWidth="100"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                <Label text="Add to Savings: $" />
+                <TextField fx:id="addSavingsField" promptText="0.00" prefWidth="100"/>
+            </HBox>
+            <Button text="Add Money" onAction="#addMoneyToAccounts" GridPane.columnIndex="6" GridPane.rowIndex="3"/>
             <Button text="Transfer" onAction="#onTransfer"/>
             <Label fx:id="checkingRoutingLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
             <Label text="Checking Balance:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>

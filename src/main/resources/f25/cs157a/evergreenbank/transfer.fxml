@@ -26,6 +26,7 @@
                 <!-- LEFT: Transfer FROM -->
                 <VBox spacing="16" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
 
+
                     <Label text="Transfer From Account"
                            styleClass="section-header"/>
 
@@ -146,18 +147,26 @@
         </StackPane>
     </center>
     <bottom>
-        <HBox spacing="20" alignment="CENTER_LEFT">
-            <padding>
-                <Insets top="20" right="40" bottom="40" left="80"/>
-            </padding>
+        <StackPane>
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <padding>
+                    <Insets top="20" right="40" bottom="40" left="80"/>
+                </padding>
 
-            <Button text="Back"
-                    onAction="#backToDashboard"/>
+                <Button text="Back"
+                        onAction="#backToDashboard"/>
 
-            <Region HBox.hgrow="ALWAYS"/>
+                <Region HBox.hgrow="ALWAYS"/>
 
-            <Button text="Transfer"
-                    onAction="#handleTransfer"/>
-        </HBox>
+                <Button text="Transfer"
+                        onAction="#handleTransfer"/>
+            </HBox>
+
+            <Label fx:id="errorLabel"
+                   visible="false"
+                   styleClass="error-label"
+                   StackPane.alignment="TOP_CENTER"
+                   translateY="10"/>
+        </StackPane>
     </bottom>
 </BorderPane>

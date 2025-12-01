@@ -15,6 +15,8 @@ public class DashboardController {
 
     @FXML private Label checkingBalanceLabel;
     @FXML private Label savingsBalanceLabel;
+    @FXML private TextField addCheckingField;
+    @FXML private TextField addSavingsField;
 
     private double checkingBalance;
     private double savingsBalance;
@@ -30,6 +32,34 @@ public class DashboardController {
         if (savingsBalanceLabel != null) {
             savingsBalanceLabel.setText(String.format("Savings Balance: $%.2f", view.savingsBalance));
             savingsBalance = view.savingsBalance;
+        }
+    }
+
+    @FXML
+    private void addMoneyToAccounts(ActionEvent event) {
+
+        String chkText = addCheckingField.getText().trim();
+        String savText = addSavingsField.getText().trim();
+
+        double chkAmount = 0;
+        double savAmount = 0;
+
+        try {
+            if (!chkText.isEmpty()) chkAmount = Double.parseDouble(chkText);
+            if (!savText.isEmpty()) savAmount = Double.parseDouble(savText);
+            if (chkAmount < 0 || savAmount < 0) {
+                return;
+            }
+            UserRepository.depositToAccounts(currentUserId, chkAmount, savAmount);
+            checkingBalance += chkAmount;
+            savingsBalance  += savAmount;
+            checkingBalanceLabel.setText(String.format("Checking Balance: $%.2f", checkingBalance));
+            savingsBalanceLabel.setText(String.format("Savings Balance: $%.2f", savingsBalance));
+            addCheckingField.clear();
+            addSavingsField.clear();
+
+        } catch (NumberFormatException e) {
+        } catch (Exception e) {
         }
     }
 
