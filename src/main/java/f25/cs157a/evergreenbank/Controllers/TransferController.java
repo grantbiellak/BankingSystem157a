@@ -146,7 +146,10 @@ public class TransferController {
         } catch (SQLException e) {
             System.err.println("Database error during transfer: " + e.getMessage());
             try {
-                if (currentUserId == Integer.parseInt(toUserIdField.getText().trim())) {
+                String toChoice = toAccountTypeCombo.getValue();
+                String fromChoice = mainType.getText();
+                if (currentUserId == Integer.parseInt(toUserIdField.getText().trim())
+                && toChoice.equalsIgnoreCase(fromChoice)) {
                     errorLabel.setText("Cannot transfer to the same account");
                 }
                 else {
