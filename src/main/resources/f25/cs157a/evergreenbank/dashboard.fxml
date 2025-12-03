@@ -73,15 +73,15 @@
                            styleClass="section-header"/>
 
                     <HBox spacing="10" alignment="CENTER_LEFT">
-                        <Label text="Add to Checking: $" />
-                        <TextField fx:id="addCheckingField"
+                        <Label text="Amount to/from Checking: $" />
+                        <TextField fx:id="amountCheckingField"
                                    promptText="0.00"
                                    prefWidth="100"/>
                     </HBox>
 
                     <HBox spacing="10" alignment="CENTER_LEFT">
-                        <Label text="Add to Savings: $" />
-                        <TextField fx:id="addSavingsField"
+                        <Label text="Amount to/from Savings: $" />
+                        <TextField fx:id="amountSavingsField"
                                    promptText="0.00"
                                    prefWidth="100"/>
                     </HBox>
@@ -89,7 +89,10 @@
                     <HBox spacing="12" alignment="CENTER_LEFT">
                         <Button text="Add Money"
                                 onAction="#addMoneyToAccounts"/>
-
+                         <Button text="Withdraw Money"
+                                onAction="#withdrawMoneyFromAccounts"/>
+                        <Button text="Add Interest"
+                                onAction="#addInterestToSavings"/>
                         <Button text="Transfer"
                                 onAction="#onTransfer"/>
                         <Button text="Manage Loans"

@@ -389,6 +389,68 @@ public final class UserRepository {
         return 0;
     }
 
+    public static double getSavingsInterestRate(int userId) throws SQLException {
+        String query = "SELECT interest_rate FROM accounts WHERE user_id = ? AND account_type = 'SAVINGS'";
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble("interest_rate");
+                }
+            }
+        }
+        throw new SQLException("Savings account not found for user ID: " + userId);
+    }
+
+    public static void withdrawFromAccounts(int userId, double checkingAmount, double savingsAmount)
+        throws SQLException {
+
+        if (checkingAmount < 0 || savingsAmount < 0) {
+            throw new IllegalArgumentException("Withdrawal amounts cannot be negative.");
+        }
+
+        if (checkingAmount == 0 && savingsAmount == 0) {
+            return;
+        }
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+            conn.setAutoCommit(false);
+            try {
+                // Withdraw from CHECKING
+                if (checkingAmount > 0) {
+                    try (PreparedStatement ps = conn.prepareStatement(
+                            "UPDATE accounts SET balance = balance - ? " +
+                                    "WHERE user_id = ? AND account_type = 'CHECKING'")) {
+                        ps.setDouble(1, checkingAmount);
+                        ps.setInt(2, userId);
+                        ps.executeUpdate();
+                    }
+                }
+
+                // Withdraw from SAVINGS
+                if (savingsAmount > 0) {
+                    try (PreparedStatement ps = conn.prepareStatement(
+                            "UPDATE accounts SET balance = balance - ? " +
+                                    "WHERE user_id = ? AND account_type = 'SAVINGS'")) {
+                        ps.setDouble(1, savingsAmount);
+                        ps.setInt(2, userId);
+                        ps.executeUpdate();
+                    }
+                }
+
+                conn.commit();
+
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        }
+    }
+
+
     private UserRepository() {
         // private constructor to prevent instantiation
     }

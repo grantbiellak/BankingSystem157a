@@ -17,8 +17,8 @@ import java.sql.SQLException;
 
 public class DashboardController {
 
-    @FXML private TextField addCheckingField;
-    @FXML private TextField addSavingsField;
+    @FXML private TextField amountCheckingField;
+    @FXML private TextField amountSavingsField;
     @FXML private Label mainType;
     @FXML private Label mainNumber;
     @FXML private Label mainBalance;
@@ -76,8 +76,8 @@ public class DashboardController {
     @FXML
     private void addMoneyToAccounts(ActionEvent event) {
 
-        String chkText = addCheckingField.getText().trim();
-        String savText = addSavingsField.getText().trim();
+        String chkText = amountCheckingField.getText().trim();
+        String savText = amountSavingsField.getText().trim();
 
         double chkAmount = 0;
         double savAmount = 0;
@@ -97,8 +97,8 @@ public class DashboardController {
             mainBalance.setText(String.format("$%.2f", checkingBalance));
             dropBalance.setText(String.format("$%.2f", savingsBalance));
 
-            addCheckingField.clear();
-            addSavingsField.clear();
+            amountCheckingField.clear();
+            amountSavingsField.clear();
 
         } catch (NumberFormatException e) {
         } catch (Exception e) {
@@ -165,18 +165,103 @@ public class DashboardController {
         System.out.println("button clicked");
     }
 
-    // @FXML
-    // private void onTransfer(ActionEvent event) throws IOException {
-    //     FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/transfer.fxml"));
-    //     Parent userRoot = loader.load();
-    //     TransferController controller = loader.getController();
-    //     controller.setCurrentUserId(currentUserId);
-    //     controller.setSavingsBalance(savingsBalance);
-    //     controller.setCheckingBalance(checkingBalance);
-    //     controller.loadAccountData();
-    //     Scene scene = ((Node) event.getSource()).getScene();
-    //     scene.setRoot(userRoot);
-    // }
+    @FXML
+    private void withdrawMoneyFromAccounts(ActionEvent event) {
+        String chkText = amountCheckingField.getText().trim();
+        String savText = amountSavingsField.getText().trim();
+
+        double chkAmount = 0;
+        double savAmount = 0;
+
+        try {
+            if (!chkText.isEmpty()) chkAmount = Double.parseDouble(chkText);
+            if (!savText.isEmpty()) savAmount = Double.parseDouble(savText);
+
+            if (chkAmount < 0 || savAmount < 0) {
+                return; // invalid
+            }
+
+            if (chkAmount > checkingBalance || savAmount > savingsBalance) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Insufficient Funds");
+                alert.setHeaderText(null);
+                alert.setContentText("You cannot withdraw more than the available balance.");
+                alert.showAndWait();
+                return;
+            }
+
+            // Update DB
+            UserRepository.withdrawFromAccounts(currentUserId, chkAmount, savAmount);
+
+            // Update local
+            checkingBalance -= chkAmount;
+            savingsBalance  -= savAmount;
+
+            mainBalance.setText(String.format("$%.2f", checkingBalance));
+            dropBalance.setText(String.format("$%.2f", savingsBalance));
+
+            amountCheckingField.clear();
+            amountSavingsField.clear();
+
+        } catch (NumberFormatException e) {
+            // invalid input
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    @FXML
+    private void addInterestToSavings(ActionEvent event) {
+        try {
+            // Fetch the interest rate for the savings account from the database
+            double interestRate = UserRepository.getSavingsInterestRate(currentUserId);
+    
+            if (interestRate <= 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Interest Rate");
+                alert.setHeaderText(null);
+                alert.setContentText("The interest rate for your savings account is invalid.");
+                alert.showAndWait();
+                return;
+            }
+    
+            // Calculate interest
+            double interestAmount = savingsBalance * interestRate;
+    
+            if (interestAmount <= 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("No Interest Added");
+                alert.setHeaderText(null);
+                alert.setContentText("No interest was added because the savings balance is zero.");
+                alert.showAndWait();
+                return;
+            }
+    
+            // Update savings balance in the database
+            UserRepository.depositToAccounts(currentUserId, 0, interestAmount);
+    
+            // Update local savings balance
+            savingsBalance += interestAmount;
+    
+            // Update the UI
+            dropBalance.setText(String.format("$%.2f", savingsBalance));
+    
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Interest Added");
+            alert.setHeaderText(null);
+            alert.setContentText(String.format("Interest of $%.2f has been added to your savings account.", interestAmount));
+            alert.showAndWait();
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error occurred while adding interest.");
+            alert.showAndWait();
+        }
+    }
 
     @FXML
     private void onBack(javafx.scene.input.MouseEvent e) throws java.io.IOException {
