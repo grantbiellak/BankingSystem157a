@@ -52,7 +52,7 @@ public class UserController {
         String email = emailField.getText().trim();
         System.out.println("Full name: " + fullName);
         System.out.println("Email: " + email);
-        String phoneNumber = phoneNumberField.getText().trim();
+        String phoneNumber =  phoneNumberField.getText().trim();
         System.out.println("Account Phone Number: " + phoneNumber);
 
         user = new User(fullName, email, phoneNumber);

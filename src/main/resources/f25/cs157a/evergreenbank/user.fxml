@@ -66,7 +66,7 @@
 
             <Label text="Phone Number:" GridPane.rowIndex="15" GridPane.columnIndex="0"
                    styleClass="createAccountBoldedLabels"/>
-            <TextField fx:id="phoneNumberField" promptText="Phone Number..."
+            <TextField fx:id="phoneNumberField" promptText="Ex: 123456789 (1-9 Digits)"
                        GridPane.rowIndex="15" GridPane.columnIndex="1" styleClass="createAccountTextFields"/>
 
             <Button fx:id="Submit" text="Create Account" onAction="#handleUserCreation"
