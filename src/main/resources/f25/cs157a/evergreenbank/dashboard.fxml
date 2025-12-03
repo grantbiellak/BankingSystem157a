@@ -9,98 +9,144 @@
     <top>
         <HBox spacing="40" alignment="CENTER" prefHeight="120" styleClass="top-bar">
             <Label fx:id="welcomeName"
-                   text="Welcome"
+                   text="Logout"
                    styleClass="top-bar-label"
                    onMouseClicked="#onBack"/>
             <Pane HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>
+
     <center>
         <StackPane alignment="TOP_CENTER">
-            <VBox spacing="40" alignment="TOP_CENTER">
+            <VBox alignment="TOP_CENTER">
                 <padding>
-                    <Insets top="80" right="0" bottom="40" left="0"/>
+                    <Insets top="40" right="40" bottom="40" left="40"/>
                 </padding>
-                <VBox spacing="0" alignment="TOP_CENTER">
+                <BorderPane styleClass="content-outline"
+                            maxWidth="1050"
+                            prefWidth="1050"
+                            maxHeight="900"
+                            prefHeight="900">
 
-                    <Label text="Account Overview"
-                           styleClass="section-header"/>
+                    <center>
+                        <HBox alignment="TOP_LEFT" spacing="40">
+                            <VBox alignment="TOP_LEFT" spacing="16">
+                                <padding>
+                                    <Insets top="30" right="0" bottom="30" left="30"/>
+                                </padding>
+                                <VBox spacing="16" alignment="TOP_LEFT">
 
-                    <HBox fx:id="accountCard"
-                          spacing="20"
-                          alignment="CENTER_LEFT"
-                          styleClass="account-card"
-                          prefWidth="450" prefHeight="220"
-                          maxWidth="450" maxHeight="220">
+                                    <Label text="Account Overview"
+                                           styleClass="section-header"/>
 
-                        <VBox spacing="16" alignment="CENTER_LEFT">
+                                    <HBox fx:id="accountCard"
+                                          spacing="20"
+                                          alignment="CENTER_LEFT"
+                                          styleClass="account-card"
+                                          prefWidth="450" prefHeight="220"
+                                          maxWidth="450" maxHeight="220">
 
-                            <HBox spacing="5" alignment="CENTER_LEFT">
-                                <Label fx:id="mainType" styleClass="account-type"/>
-                                <Label fx:id="mainNumber" styleClass="account-number"/>
-                            </HBox>
+                                        <VBox spacing="40" alignment="CENTER_LEFT">
 
-                            <Label fx:id="mainBalance" styleClass="account-balance"/>
+                                            <HBox spacing="5" alignment="CENTER_LEFT">
+                                                <Label fx:id="mainType" styleClass="account-type"/>
+                                                <Label fx:id="mainNumber" styleClass="account-number"/>
+                                            </HBox>
 
-                            <Label fx:id="mainSub" styleClass="account-label"/>
-                        </VBox>
+                                            <Label fx:id="mainBalance" styleClass="account-balance"/>
 
-                        <Region HBox.hgrow="ALWAYS"/>
-                    </HBox>
+                                            <Label fx:id="mainSub" styleClass="account-label"/>
+                                        </VBox>
 
-                    <HBox spacing="20"
-                          alignment="CENTER_LEFT"
-                          styleClass="dropdown-card"
-                          prefWidth="450" prefHeight="140"
-                          maxWidth="450" maxHeight="140">
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                    </HBox>
 
-                        <VBox spacing="16" alignment="CENTER_LEFT">
-                            <HBox spacing="5" alignment="CENTER_LEFT">
-                                <Label fx:id="dropType" styleClass="account-type"/>
-                                <Label fx:id="dropNumber" styleClass="account-number"/>
-                            </HBox>
+                                    <HBox spacing="20"
+                                          alignment="CENTER_LEFT"
+                                          styleClass="dropdown-card"
+                                          prefWidth="450" prefHeight="140"
+                                          maxWidth="450" maxHeight="140">
 
-                            <Label fx:id="dropBalance" styleClass="account-balance"/>
-                            <Label fx:id="dropSub" styleClass="account-label"/>
-                        </VBox>
-                    </HBox>
+                                        <VBox spacing="16" alignment="CENTER_LEFT">
+                                            <HBox spacing="5" alignment="CENTER_LEFT">
+                                                <Label fx:id="dropType" styleClass="account-type"/>
+                                                <Label fx:id="dropNumber" styleClass="account-number"/>
+                                            </HBox>
 
-                </VBox>
+                                            <Label fx:id="dropBalance" styleClass="account-balance"/>
+                                            <Label fx:id="dropSub" styleClass="account-label"/>
+                                        </VBox>
+                                    </HBox>
 
-                <VBox spacing="16" alignment="TOP_CENTER">
+                                </VBox>
+                                <HBox spacing="60" alignment="TOP_LEFT">
+                                    <padding>
+                                        <Insets top="25" right="0" bottom="0" left="0"/>
+                                    </padding>
 
-                    <Label text="Manage Funds"
-                           styleClass="section-header"/>
+                                    <VBox spacing="10" alignment="TOP_LEFT">
+                                        <Label text="Actions"
+                                               styleClass="section-subheader"/>
 
-                    <HBox spacing="10" alignment="CENTER_LEFT">
-                        <Label text="Amount to/from Checking: $" />
-                        <TextField fx:id="amountCheckingField"
-                                   promptText="0.00"
-                                   prefWidth="100"/>
-                    </HBox>
+                                        <Button text="Transfer"
+                                                onAction="#onTransfer"
+                                                prefWidth="160"
+                                                styleClass="user-buttons"/>
 
-                    <HBox spacing="10" alignment="CENTER_LEFT">
-                        <Label text="Amount to/from Savings: $" />
-                        <TextField fx:id="amountSavingsField"
-                                   promptText="0.00"
-                                   prefWidth="100"/>
-                    </HBox>
+                                        <Button text="Manage Loans"
+                                                onAction="#onManageLoans"
+                                                prefWidth="160"
+                                                styleClass="user-buttons"/>
+                                    </VBox>
 
-                    <HBox spacing="12" alignment="CENTER_LEFT">
-                        <Button text="Add Money"
-                                onAction="#addMoneyToAccounts"/>
-                         <Button text="Withdraw Money"
-                                onAction="#withdrawMoneyFromAccounts"/>
-                        <Button text="Add Interest"
-                                onAction="#addInterestToSavings"/>
-                        <Button text="Transfer"
-                                onAction="#onTransfer"/>
-                        <Button text="Manage Loans"
-                                onAction="#onManageLoans"/>
-                    </HBox>
+                                    <VBox spacing="10" alignment="TOP_LEFT">
+                                        <Label text="Testing Actions"
+                                               styleClass="section-subheader"/>
 
-                </VBox>
+                                        <Button text="Deposit / Withdraw"
+                                                onAction="#openFundsDialog"
+                                                prefWidth="160"
+                                                styleClass="user-buttons"/>
+
+                                        <Button text="Add Interest"
+                                                onAction="#addInterestToSavings"
+                                                prefWidth="160"
+                                                styleClass="user-buttons"/>
+                                    </VBox>
+
+                                </HBox>
+                            </VBox>
+
+                            <VBox alignment="TOP_LEFT" spacing="10">
+                                <padding>
+                                    <Insets top="30" right="30" bottom="30" left="0"/>
+                                </padding>
+
+                                <Label text="Recent Transactions"
+                                       styleClass="section-header"/>
+
+                                <TableView fx:id="activityTable"
+                                           prefWidth="400"
+                                           prefHeight="600"
+                                           styleClass="activity-table">
+                                    <columns>
+                                        <TableColumn fx:id="actionColumn"
+                                                     text="Action"
+                                                     prefWidth="260"/>
+                                        <TableColumn fx:id="changeColumn"
+                                                     text="Change"
+                                                     prefWidth="120"
+                                                     />
+                                    </columns>
+                                </TableView>
+                            </VBox>
+
+                        </HBox>
+                    </center>
+
+                </BorderPane>
             </VBox>
         </StackPane>
     </center>
+
 </BorderPane>

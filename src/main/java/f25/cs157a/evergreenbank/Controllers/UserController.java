@@ -56,7 +56,7 @@ public class UserController {
         System.out.println("Account Phone Number: " + phoneNumber);
 
         user = new User(fullName, email, phoneNumber);
-        if(email.isEmpty() || phoneNumber.isEmpty() || fullName.isEmpty()) {
+        if (email.isEmpty() || phoneNumber.isEmpty() || fullName.isEmpty()) {
             missingField.setVisible(true);
             return;
         }

@@ -20,8 +20,7 @@ public class DatabaseInit {
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         full_name VARCHAR(50),
                         email VARCHAR(50),
-                        phone INT,
-                        CONSTRAINT CHK_PHONE CHECK (phone BETWEEN 1 AND 1000000000),
+                        phone VARCHAR(20),
                         CONSTRAINT uq_email_phone UNIQUE (email, phone)
                         )
                     """;

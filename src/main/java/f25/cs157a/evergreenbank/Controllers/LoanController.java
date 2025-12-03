@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 
 
 import java.io.IOException;
@@ -183,5 +184,13 @@ public class LoanController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void onBackToMain(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/main-view.fxml"));
+        Parent mainRoot = loader.load();
+        Scene scene = ((Node) event.getSource()).getScene();
+        scene.setRoot(mainRoot);
     }
 }

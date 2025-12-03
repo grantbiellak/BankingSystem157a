@@ -11,7 +11,7 @@
 
     <top>
         <HBox fx:id="topBar" styleClass="top-bar" prefHeight="120" alignment="CENTER" spacing="40">
-            <Label text="Login Page" onMouseClicked="#onBackToMain" styleClass="top-bar-label"/>
+            <Label text="Logout" onMouseClicked="#onBackToMain" styleClass="top-bar-label"/>
             <Pane HBox.hgrow="ALWAYS"/>
         </HBox>
     </top>
@@ -22,8 +22,6 @@
                 <padding>
                     <Insets top="80" right="0" bottom="0" left="0"/>
                 </padding>
-
-                <!-- LEFT: Transfer FROM -->
                 <VBox spacing="16" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
 
 
@@ -78,8 +76,6 @@
                     </HBox>
 
                 </VBox>
-
-                <!-- RIGHT: Transfer TO -->
                 <VBox spacing="16" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
 
                     <Label text="Transfer To Account"
@@ -115,7 +111,6 @@
                                 </HBox>
                             </HBox>
 
-                            <!-- Placeholders but they change the spacing so I need them-->
                             <Label fx:id="toAccountNumberLabel"
                                    styleClass="account-number"/>
 
@@ -152,12 +147,14 @@
                 </padding>
 
                 <Button text="Back"
-                        onAction="#backToDashboard"/>
+                        onAction="#backToDashboard"
+                        styleClass="user-buttons"/>
 
                 <Region HBox.hgrow="ALWAYS"/>
 
                 <Button text="Transfer"
-                        onAction="#handleTransfer"/>
+                        onAction="#handleTransfer"
+                        styleClass="user-buttons"/>
             </HBox>
 
             <Label fx:id="errorLabel"
