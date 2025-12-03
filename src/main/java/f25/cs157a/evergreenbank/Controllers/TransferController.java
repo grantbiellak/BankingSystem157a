@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -108,27 +109,34 @@ public class TransferController {
             if (success) {
                 System.out.println("Transfer completed successfully!");
 
+                // Update balances
                 if (fromChoice.equalsIgnoreCase("CHECKING")) {
                     checkingBalance -= amount;
-                }
-                else if (fromChoice.equalsIgnoreCase("SAVINGS")) {
+                } else if (fromChoice.equalsIgnoreCase("SAVINGS")) {
                     savingsBalance -= amount;
                 }
 
                 if (targetUserId == currentUserId) {
                     if (toChoice.equalsIgnoreCase("CHECKING")) {
                         checkingBalance += amount;
-                    }
-                    else if (toChoice.equalsIgnoreCase("SAVINGS")) {
+                    } else if (toChoice.equalsIgnoreCase("SAVINGS")) {
                         savingsBalance += amount;
                     }
                 }
 
                 refreshAccountCards();
-
                 toAmountField.clear();
 
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Transfer Successful");
+                alert.setHeaderText(null);
+                alert.setContentText(
+                        "You have successfully transferred $" + String.format("%.2f", amount) +
+                                " to User " + targetUserId + "."
+                );
+                alert.showAndWait();
             }
+
             else {
                 System.out.println("Transfer failed.");
                 errorLabel.setText("Transfer failed");
@@ -151,6 +159,9 @@ public class TransferController {
                 if (currentUserId == Integer.parseInt(toUserIdField.getText().trim())
                 && toChoice.equalsIgnoreCase(fromChoice)) {
                     errorLabel.setText("Cannot transfer to the same account");
+                }
+                else if (savingsBalance >= Double.parseDouble(toAmountField.getText().trim())) {
+                    errorLabel.setText("Transferring to a non-existing account");
                 }
                 else {
                     errorLabel.setText("Insufficient funds");

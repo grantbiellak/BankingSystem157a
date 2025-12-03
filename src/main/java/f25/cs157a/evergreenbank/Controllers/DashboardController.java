@@ -11,14 +11,20 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.layout.GridPane;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import javafx.beans.property.SimpleStringProperty;
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class DashboardController {
 
-    @FXML private TextField amountCheckingField;
-    @FXML private TextField amountSavingsField;
     @FXML private Label mainType;
     @FXML private Label mainNumber;
     @FXML private Label mainBalance;
@@ -27,11 +33,16 @@ public class DashboardController {
     @FXML private Label dropNumber;
     @FXML private Label dropBalance;
     @FXML private Label dropSub;
+    @FXML private TableView<ActivityItem> activityTable;
+    @FXML private TableColumn<ActivityItem, String> actionColumn;
+    @FXML private TableColumn<ActivityItem, String> changeColumn;
+
 
     private double checkingBalance;
     private double savingsBalance;
     private int currentUserId;
 
+    // Set the data from the view
     public void setData(UserRepository.AccountsView view) {
         currentUserId = view.userID;
         checkingBalance = view.checkingBalance;
@@ -45,18 +56,21 @@ public class DashboardController {
         dropSub.setText("Available Balance");
         dropBalance.setText(String.format("$%.2f", savingsBalance));
 
+        loadActivity();
     }
 
+    // Overloaded setData since we don't want to reaccess the view on scene change
     public void setData(int userId, double checking, double savings) {
         this.currentUserId    = userId;
         this.checkingBalance  = checking;
         this.savingsBalance   = savings;
         applyDataToView();
+        loadActivity();
     }
 
+
     private void applyDataToView() {
-        if (mainType == null || mainBalance == null ||
-                dropType == null || dropBalance == null) {
+        if (mainType == null || mainBalance == null || dropType == null || dropBalance == null) {
             return;
         }
 
@@ -73,19 +87,14 @@ public class DashboardController {
         dropNumber.setText(idText);
     }
 
-    @FXML
-    private void addMoneyToAccounts(ActionEvent event) {
-
-        String chkText = amountCheckingField.getText().trim();
-        String savText = amountSavingsField.getText().trim();
-
-        double chkAmount = 0;
-        double savAmount = 0;
-
+    public void addMoneyToAccounts(double chkAmount, double savAmount) {
         try {
-            if (!chkText.isEmpty()) chkAmount = Double.parseDouble(chkText);
-            if (!savText.isEmpty()) savAmount = Double.parseDouble(savText);
             if (chkAmount < 0 || savAmount < 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Amount");
+                alert.setHeaderText(null);
+                alert.setContentText("Amounts must be non-negative");
+                alert.showAndWait();
                 return;
             }
 
@@ -97,11 +106,13 @@ public class DashboardController {
             mainBalance.setText(String.format("$%.2f", checkingBalance));
             dropBalance.setText(String.format("$%.2f", savingsBalance));
 
-            amountCheckingField.clear();
-            amountSavingsField.clear();
-
-        } catch (NumberFormatException e) {
         } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error occurred while depositing funds");
+            alert.showAndWait();
         }
     }
 
@@ -124,7 +135,6 @@ public class DashboardController {
         confirmation.setTitle("Delete User");
         confirmation.setHeaderText("Are you sure you want to delete this user?");
         confirmation.setContentText("You will permanently lose access to all your account funds.");
-
         if (confirmation.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             try {
                 boolean success = UserRepository.deleteUser(currentUserId);
@@ -134,7 +144,6 @@ public class DashboardController {
                     successAlert.setHeaderText(null);
                     successAlert.setContentText("The user has been successfully deleted.");
                     successAlert.showAndWait();
-
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/main-view.fxml"));
                     Parent mainRoot = loader.load();
                     Scene scene = ((Node) event.getSource()).getScene();
@@ -159,26 +168,21 @@ public class DashboardController {
         controller.setCurrentUserId(currentUserId);
         controller.setTotalBalance(checkingBalance + savingsBalance);
         controller.setAccountBalances(checkingBalance, savingsBalance);
-        controller.loadLoanData(); // Load loan data (e.g., unpaid loan amount)
+        controller.loadLoanData();
         Scene scene = ((Node) event.getSource()).getScene();
         scene.setRoot(userRoot);
         System.out.println("button clicked");
     }
 
-    @FXML
-    private void withdrawMoneyFromAccounts(ActionEvent event) {
-        String chkText = amountCheckingField.getText().trim();
-        String savText = amountSavingsField.getText().trim();
-
-        double chkAmount = 0;
-        double savAmount = 0;
-
+    public void withdrawMoneyFromAccounts(double chkAmount, double savAmount) {
         try {
-            if (!chkText.isEmpty()) chkAmount = Double.parseDouble(chkText);
-            if (!savText.isEmpty()) savAmount = Double.parseDouble(savText);
-
             if (chkAmount < 0 || savAmount < 0) {
-                return; // invalid
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Amount");
+                alert.setHeaderText(null);
+                alert.setContentText("Amounts must be non-negative.");
+                alert.showAndWait();
+                return;
             }
 
             if (chkAmount > checkingBalance || savAmount > savingsBalance) {
@@ -189,24 +193,18 @@ public class DashboardController {
                 alert.showAndWait();
                 return;
             }
-
-            // Update DB
             UserRepository.withdrawFromAccounts(currentUserId, chkAmount, savAmount);
-
-            // Update local
             checkingBalance -= chkAmount;
             savingsBalance  -= savAmount;
-
             mainBalance.setText(String.format("$%.2f", checkingBalance));
             dropBalance.setText(String.format("$%.2f", savingsBalance));
-
-            amountCheckingField.clear();
-            amountSavingsField.clear();
-
-        } catch (NumberFormatException e) {
-            // invalid input
         } catch (Exception e) {
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error occurred while withdrawing funds.");
+            alert.showAndWait();
         }
     }
 
@@ -216,7 +214,6 @@ public class DashboardController {
         try {
             // Fetch the interest rate for the savings account from the database
             double interestRate = UserRepository.getSavingsInterestRate(currentUserId);
-    
             if (interestRate <= 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Invalid Interest Rate");
@@ -225,7 +222,7 @@ public class DashboardController {
                 alert.showAndWait();
                 return;
             }
-    
+
             // Calculate interest
             double interestAmount = savingsBalance * interestRate;
     
@@ -238,13 +235,8 @@ public class DashboardController {
                 return;
             }
     
-            // Update savings balance in the database
             UserRepository.depositToAccounts(currentUserId, 0, interestAmount);
-    
-            // Update local savings balance
             savingsBalance += interestAmount;
-    
-            // Update the UI
             dropBalance.setText(String.format("$%.2f", savingsBalance));
     
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -262,6 +254,108 @@ public class DashboardController {
             alert.showAndWait();
         }
     }
+
+    @FXML
+    private void openFundsDialog(ActionEvent event) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Manage Funds");
+        DialogPane dialogPane = dialog.getDialogPane();
+        ButtonType closeButtonType = new ButtonType("Close", ButtonBar.ButtonData.LEFT);
+        ButtonType addButtonType = new ButtonType("Add", ButtonBar.ButtonData.APPLY);
+        ButtonType withdrawButtonType = new ButtonType("Withdraw", ButtonBar.ButtonData.RIGHT);
+        dialogPane.getButtonTypes().addAll(closeButtonType, addButtonType, withdrawButtonType);
+        TextField checkingField = new TextField();
+        checkingField.setPromptText("0.00");
+        TextField savingsField = new TextField();
+        savingsField.setPromptText("0.00");
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.addRow(0, new Label("Amount to/from Checking: $"), checkingField);
+        grid.addRow(1, new Label("Amount to/from Savings: $"), savingsField);
+
+        dialogPane.setContent(grid);
+
+        dialog.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == closeButtonType) {
+                return;
+            }
+
+            String chkText = checkingField.getText().trim();
+            String savText = savingsField.getText().trim();
+
+            double chkAmount = 0;
+            double savAmount = 0;
+
+            try {
+                if (!chkText.isEmpty()) chkAmount = Double.parseDouble(chkText);
+                if (!savText.isEmpty()) savAmount = Double.parseDouble(savText);
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Input");
+                alert.setHeaderText(null);
+                alert.setContentText("Please enter valid numeric amounts.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (chkAmount == 0 && savAmount == 0) {
+                return;
+            }
+
+            if (buttonType == addButtonType) {
+                addMoneyToAccounts(chkAmount, savAmount);
+            } else if (buttonType == withdrawButtonType) {
+                withdrawMoneyFromAccounts(chkAmount, savAmount);
+            }
+        });
+    }
+
+    // Static inner class to help with the dialog pane
+    public static class ActivityItem {
+        private final SimpleStringProperty action;
+        private final SimpleStringProperty change;
+
+        public ActivityItem(String action, String change) {
+            this.action = new SimpleStringProperty(action);
+            this.change = new SimpleStringProperty(change);
+        }
+
+        public String getAction() {
+            return action.get();
+        }
+
+        public String getChange() {
+            return change.get();
+        }
+    }
+
+    private void loadActivity() {
+        if (activityTable == null || actionColumn == null || changeColumn == null) {
+            return;
+        }
+        actionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAction()));
+        changeColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getChange()));
+        actionColumn.setReorderable(false);
+        changeColumn.setReorderable(false);
+        actionColumn.setResizable(false);
+        changeColumn.setResizable(false);
+
+        ObservableList<ActivityItem> items = FXCollections.observableArrayList();
+
+        try {
+            var records = UserRepository.getUserActivity(currentUserId);
+            for (UserRepository.ActivityRecord r : records) {
+                String changeStr = String.format("%+.2f", r.change); // e.g. +100.00 or -50.00
+                items.add(new ActivityItem(r.action, changeStr));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        activityTable.setItems(items);
+    }
+
+
 
     @FXML
     private void onBack(javafx.scene.input.MouseEvent e) throws java.io.IOException {

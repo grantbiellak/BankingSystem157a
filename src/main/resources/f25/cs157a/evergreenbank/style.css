@@ -135,7 +135,6 @@
     -fx-border-width: 4 0 0 0;
 }
 
-/* text styles */
 .account-type {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
@@ -163,7 +162,6 @@
     -fx-text-fill: #333333;
 }
 
-/* ComboBox used inside the account card on the right */
 .account-combo {
     -fx-background-color: white;
     -fx-background-radius: 4;
@@ -177,7 +175,6 @@
     -fx-text-fill: #00844d;   /* same green accent */
 }
 
-/* The text area of the combo (inner editor/cell) */
 .account-combo .list-cell {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
@@ -185,13 +182,11 @@
     -fx-background-color: transparent;
 }
 
-/* The dropdown arrow button area */
 .account-combo .arrow-button {
     -fx-background-color: transparent;
     -fx-padding: 0 6 0 6;
 }
 
-/* The little arrow icon itself */
 .account-combo .arrow {
     -fx-background-color: #00844d;
 }
@@ -220,4 +215,92 @@
 .underline-field:focused {
     -fx-border-color: transparent transparent #005b33 transparent;
     -fx-background-insets: 0;
+}
+
+.content-outline {
+    -fx-border-color: #c0c0c0;
+    -fx-border-radius: 12;
+    -fx-border-width: 1.5;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+}
+
+.section-subheader {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #444;
+}
+
+
+.activity-table {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-table-cell-border-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.activity-table .column-header-background {
+    -fx-background-color: #409d39;
+    -fx-background-radius: 12 12 0 0;
+    -fx-padding: 6 12 6 12;
+}
+
+.activity-table .column-header-background .filler,
+.activity-table .filler {
+    -fx-background-color: #409d39;
+    -fx-border-color: transparent;
+}
+
+.activity-table .column-header,
+.activity-table .column-header .label {
+    -fx-background-color: transparent;
+    -fx-font-family: "Segoe UI", "Liberation Sans", system-ui, sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.activity-table .corner {
+    -fx-background-color: #409d39;
+}
+
+.activity-table .table-row-cell {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #333333;
+    -fx-cell-size: 36px;
+}
+
+.activity-table .table-row-cell:odd {
+    -fx-background-color: #f7f4ff;
+}
+
+.activity-table .table-row-cell:filled:hover {
+    -fx-background-color: #ede9ff;
+}
+
+.activity-table .table-row-cell:filled:selected,
+.activity-table .table-row-cell:filled:selected .table-cell {
+    -fx-background-color: #dcd4ff;
+    -fx-text-fill: #333333;
+}
+
+.activity-table .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 8 12 8 12;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.activity-table .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.activity-table .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(0,0,0,0.15);
+    -fx-background-radius: 8;
+}
+
+.activity-table .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
 }

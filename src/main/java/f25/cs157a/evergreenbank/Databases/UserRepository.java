@@ -86,6 +86,12 @@ public final class UserRepository {
 
     }
 
+    public static class ActivityRecord {
+        public String action;
+        public double change;
+        public Timestamp date;
+    }
+
 
     // fetch accounts for user with this id+name, or null if not found
     public static AccountsView getAccounts(int userId, String fullName) throws SQLException {
@@ -449,6 +455,56 @@ public final class UserRepository {
             }
         }
     }
+
+    public static java.util.List<ActivityRecord> getUserActivity(int userId) throws SQLException {
+        java.util.List<ActivityRecord> list = new java.util.ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+
+            String transferSql = """
+            SELECT sender_id, receiver_id, amount, date, status
+            FROM transfers
+            WHERE (sender_id = ? OR receiver_id = ?)
+              AND status = 'SUCCESS'
+        """;
+
+            try (PreparedStatement ps = conn.prepareStatement(transferSql)) {
+                ps.setInt(1, userId);
+                ps.setInt(2, userId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        int senderId   = rs.getInt("sender_id");
+                        int receiverId = rs.getInt("receiver_id");
+                        double amount  = rs.getDouble("amount");
+                        Timestamp date = rs.getTimestamp("date");
+
+                        ActivityRecord r = new ActivityRecord();
+                        r.date = date;
+
+                        if (senderId == userId && receiverId == userId) {
+                            r.action = "Transfer between your accounts";
+                            r.change = 0.0;
+                        } else if (senderId == userId) {
+                            r.action = "Transfer to User " + receiverId;
+                            r.change = -amount;
+                        } else {
+                            r.action = "Transfer from User " + senderId;
+                            r.change = +amount;
+                        }
+
+                        list.add(r);
+                    }
+                }
+            }
+        }
+
+        // Sort by date descending (most recent first)
+        list.sort((a, b) -> b.date.compareTo(a.date));
+
+        return list;
+    }
+
+
 
 
     private UserRepository() {
