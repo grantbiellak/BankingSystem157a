@@ -44,6 +44,7 @@ public class DashboardController {
         dropType.setText("Savings");
         dropSub.setText("Available Balance");
         dropBalance.setText(String.format("$%.2f", savingsBalance));
+
     }
 
     public void setData(int userId, double checking, double savings) {
@@ -149,6 +150,33 @@ public class DashboardController {
             }
         }
     }
+
+    @FXML
+    private void onManageLoans(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/loan.fxml"));
+        Parent userRoot = loader.load();
+        LoanController controller = loader.getController();
+        controller.setCurrentUserId(currentUserId);
+        controller.setTotalBalance(checkingBalance + savingsBalance);
+        controller.setAccountBalances(checkingBalance, savingsBalance);
+        controller.loadLoanData(); // Load loan data (e.g., unpaid loan amount)
+        Scene scene = ((Node) event.getSource()).getScene();
+        scene.setRoot(userRoot);
+        System.out.println("button clicked");
+    }
+
+    // @FXML
+    // private void onTransfer(ActionEvent event) throws IOException {
+    //     FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/transfer.fxml"));
+    //     Parent userRoot = loader.load();
+    //     TransferController controller = loader.getController();
+    //     controller.setCurrentUserId(currentUserId);
+    //     controller.setSavingsBalance(savingsBalance);
+    //     controller.setCheckingBalance(checkingBalance);
+    //     controller.loadAccountData();
+    //     Scene scene = ((Node) event.getSource()).getScene();
+    //     scene.setRoot(userRoot);
+    // }
 
     @FXML
     private void onBack(javafx.scene.input.MouseEvent e) throws java.io.IOException {

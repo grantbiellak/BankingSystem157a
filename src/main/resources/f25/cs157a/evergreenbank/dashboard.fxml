@@ -92,10 +92,10 @@
 
                         <Button text="Transfer"
                                 onAction="#onTransfer"/>
-
-                        <Button text="Delete User"
-                                onAction="#handleUserDeletion"/>
+                        <Button text="Manage Loans"
+                                onAction="#onManageLoans"/>
                     </HBox>
+
                 </VBox>
             </VBox>
         </StackPane>

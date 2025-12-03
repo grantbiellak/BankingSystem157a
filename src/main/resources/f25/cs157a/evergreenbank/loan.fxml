@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="f25.cs157a.evergreenbank.Controllers.LoanController">
+
+    <top>
+        <HBox fx:id="topBar" styleClass="top-bar" prefHeight="120" alignment="CENTER" spacing="40">
+            <Label text="Dashboard" onMouseClicked="#backToDashboard" styleClass="top-bar-label"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+
+    <center>
+        <StackPane alignment="TOP_CENTER">
+            <VBox spacing="40" alignment="TOP_CENTER">
+                <padding>
+                    <Insets top="40" right="0" bottom="0" left="0"/>
+                </padding>
+
+                <!-- Loan Information -->
+                <VBox spacing="16" alignment="CENTER">
+                    <Label text="Manage Loan" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <Label fx:id="totalBalanceLabel" text="Total Balance: $0.00"/>
+                    <Label fx:id="unpaidLoanLabel" text="Unpaid Loan: $0.00"/>
+                </VBox>
+
+                <!-- Request Loan Section -->
+                <VBox spacing="16" alignment="CENTER">
+                    <Label text="Request a Loan" styleClass="section-header"/>
+                    <TextField fx:id="loanAmountField" promptText="Enter loan amount" styleClass="underline-field"/>
+                    <Button text="Submit Loan Request" onAction="#submitLoanRequest"/>
+                </VBox>
+
+                <!-- Repay Loan Section -->
+                <VBox spacing="16" alignment="CENTER">
+                    <Label text="Repay Loan" styleClass="section-header"/>
+                    <TextField fx:id="repaymentAmountField" promptText="Enter repayment amount" styleClass="underline-field"/>
+                    <ChoiceBox fx:id="accountChoiceBox">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Checkings"/>
+                                <String fx:value="Savings"/>
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button text="Submit Loan Repayment" onAction="#submitLoanRepayment"/>
+                </VBox>
+            </VBox>
+        </StackPane>
+    </center>
+
+    <bottom>
+        <StackPane>
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <padding>
+                    <Insets top="20" right="40" bottom="40" left="80"/>
+                </padding>
+
+                <Button text="Back"
+                        onAction="#backToDashboard"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Button text="Submit Loan Request"
+                        onAction="#submitLoanRequest"/>
+            </HBox>
+
+            <Label fx:id="errorLabel"
+                   visible="false"
+                   styleClass="error-label"
+                   StackPane.alignment="TOP_CENTER"
+                   translateY="10"/>
+        </StackPane>
+    </bottom>
+</BorderPane>

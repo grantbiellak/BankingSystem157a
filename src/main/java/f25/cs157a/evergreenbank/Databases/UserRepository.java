@@ -317,6 +317,78 @@ public final class UserRepository {
         }
     }
 
+    public static boolean hasUnpaidLoan(int userId) throws SQLException {
+        String query = "SELECT 1 FROM loan WHERE customer_id = ? AND status = 'UNPAID'";
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+    
+
+        public static boolean requestLoan(int userId, double amount) throws SQLException {
+        String query = "INSERT INTO loan (customer_id, amount, date, status) VALUES (?, ?, NOW(), 'UNPAID')";
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ps.setDouble(2, amount);
+            return ps.executeUpdate() > 0;
+        }
+    }
+    
+    public static boolean payLoan(int userId, double amount, String accountType) throws SQLException {
+        String updateLoan = "UPDATE loan SET amount = amount - ? WHERE customer_id = ? AND status = 'UNPAID'";
+        String updateAccount = "UPDATE accounts SET balance = balance - ? WHERE user_id = ? AND account_type = ?";
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement loanPS = conn.prepareStatement(updateLoan);
+                 PreparedStatement accountPS = conn.prepareStatement(updateAccount)) {
+    
+                loanPS.setDouble(1, amount);
+                loanPS.setInt(2, userId);
+                loanPS.executeUpdate();
+    
+                accountPS.setDouble(1, amount);
+                accountPS.setInt(2, userId);
+                accountPS.setString(3, accountType.toUpperCase());
+                accountPS.executeUpdate();
+    
+                conn.commit();
+                return true;
+    
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        }
+    }
+    
+    public static void markLoanAsPaid(int userId) throws SQLException {
+        String query = "UPDATE loan SET status = 'PAID' WHERE customer_id = ? AND amount <= 0";
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ps.executeUpdate();
+        }
+    }
+    
+    public static double getUnpaidLoanAmount(int userId) throws SQLException {
+        String query = "SELECT amount FROM loan WHERE customer_id = ? AND status = 'UNPAID'";
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble("amount");
+                }
+            }
+        }
+        return 0;
+    }
+
     private UserRepository() {
         // private constructor to prevent instantiation
     }

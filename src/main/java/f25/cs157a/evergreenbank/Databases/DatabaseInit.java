@@ -20,7 +20,8 @@ public class DatabaseInit {
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         full_name VARCHAR(50),
                         email VARCHAR(50),
-                        phone VARCHAR(15),
+                        phone INT,
+                        CONSTRAINT CHK_PHONE CHECK (phone BETWEEN 1 AND 1000000000),
                         CONSTRAINT uq_email_phone UNIQUE (email, phone)
                         )
                     """;
@@ -49,10 +50,25 @@ public class DatabaseInit {
                     )
             """;
             stmt.executeUpdate(createTransfers);
+
+            // Create loan table
+            String createLoan = """
+                CREATE TABLE IF NOT EXISTS loan(
+                    loan_id INT AUTO_INCREMENT PRIMARY KEY,
+                    customer_id INT NOT NULL,
+                    amount DOUBLE NOT NULL,
+                    date DATETIME NOT NULL,
+                    status ENUM('PAID', 'UNPAID') NOT NULL,
+                    FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE CASCADE
+                )
+            """;
+            stmt.executeUpdate(createLoan);
         }
         catch(SQLException e){
             e.printStackTrace();
         }
+
+
     }
     public static void main(String[] args){
         initialize();
