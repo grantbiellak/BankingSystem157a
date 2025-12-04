@@ -168,11 +168,11 @@ public class TransferController {
                 && toChoice.equalsIgnoreCase(fromChoice)) {
                     errorLabel.setText("Cannot transfer to the same account");
                 }
-                else if (savingsBalance >= Double.parseDouble(toAmountField.getText().trim())) {
-                    errorLabel.setText("Transferring to a non-existing account");
+                else if (savingsBalance >= Double.parseDouble(toAmountField.getText().trim())){
+                    errorLabel.setText("Insufficient funds");
                 }
                 else {
-                    errorLabel.setText("Insufficient funds");
+                    errorLabel.setText("Transferring to a non-existing account");
                 }
             } catch (NumberFormatException ex) {
                 errorLabel.setText("Database error");
