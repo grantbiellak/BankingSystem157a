@@ -95,6 +95,10 @@ public class LoanController {
                 checkingBalance += loanAmount;
                 unpaidLoanAmount += loanAmount;
                 loadLoanData();
+
+                totalBalance = checkingBalance + savingsBalance;
+                totalBalanceLabel.setText(String.format("Total Balance: $%.2f", totalBalance));
+
                 showSuccess("Loan Approved", "Your loan request has been approved.");
                 loanAmountField.clear();
             } else {
@@ -150,6 +154,8 @@ public class LoanController {
                     UserRepository.markLoanAsPaid(currentUserId);
                 }
 
+                totalBalance = checkingBalance + savingsBalance;
+                totalBalanceLabel.setText(String.format("Total Balance: $%.2f", totalBalance));
                 loadLoanData();
                 showSuccess("Repayment Successful", String.format("You repaid $%.2f towards your loan.", amountToDeduct));
                 repaymentAmountField.clear();
