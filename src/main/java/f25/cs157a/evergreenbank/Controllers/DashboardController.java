@@ -23,6 +23,12 @@ import javafx.beans.property.SimpleStringProperty;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * Controller for the user dashboard view.
+ * Displays account balances and recent activity.
+ * Allows navigation to transfer and loan management views.
+ * Handles deposits, withdrawals, and interest addition.
+ */
 public class DashboardController {
 
     @FXML private Label mainType;
@@ -42,7 +48,7 @@ public class DashboardController {
     private double savingsBalance;
     private int currentUserId;
 
-    // Set the data from the view
+    // Initializes the dashboard with user account data (called from MainController)
     public void setData(UserRepository.AccountsView view) {
         currentUserId = view.userID;
         checkingBalance = view.checkingBalance;
@@ -68,7 +74,7 @@ public class DashboardController {
         loadActivity();
     }
 
-
+    // Applies the current data to the view labels
     private void applyDataToView() {
         if (mainType == null || mainBalance == null || dropType == null || dropBalance == null) {
             return;
@@ -87,6 +93,7 @@ public class DashboardController {
         dropNumber.setText(idText);
     }
 
+    // Adds money to checking and savings accounts
     public void addMoneyToAccounts(double chkAmount, double savAmount) {
         try {
             if (chkAmount < 0 || savAmount < 0) {
@@ -98,11 +105,14 @@ public class DashboardController {
                 return;
             }
 
+            // Update the database
             UserRepository.depositToAccounts(currentUserId, chkAmount, savAmount);
 
+            // Update local balances
             checkingBalance += chkAmount;
             savingsBalance  += savAmount;
 
+            // Update the UI
             mainBalance.setText(String.format("$%.2f", checkingBalance));
             dropBalance.setText(String.format("$%.2f", savingsBalance));
 
@@ -116,6 +126,8 @@ public class DashboardController {
         }
     }
 
+
+    // Navigates to transfer view, passing current user data (userID + balances)
     @FXML
     private void onTransfer(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/transfer.fxml"));
@@ -129,6 +141,8 @@ public class DashboardController {
         scene.setRoot(userRoot);
     }
 
+    // Handles user deletion with confirmation dialog (also deletes their accounts)
+    // Then returns to main view
     @FXML
     private void handleUserDeletion(ActionEvent event) {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -160,6 +174,7 @@ public class DashboardController {
         }
     }
 
+    // Navigates to loan management view, passing current user data
     @FXML
     private void onManageLoans(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/loan.fxml"));
@@ -174,6 +189,7 @@ public class DashboardController {
         System.out.println("button clicked");
     }
 
+    // Withdraws money from checking and savings accounts (with validation)
     public void withdrawMoneyFromAccounts(double chkAmount, double savAmount) {
         try {
             if (chkAmount < 0 || savAmount < 0) {
@@ -193,9 +209,15 @@ public class DashboardController {
                 alert.showAndWait();
                 return;
             }
+
+            // Update the database
             UserRepository.withdrawFromAccounts(currentUserId, chkAmount, savAmount);
+
+            // Update local balances
             checkingBalance -= chkAmount;
             savingsBalance  -= savAmount;
+
+            // Update the UI
             mainBalance.setText(String.format("$%.2f", checkingBalance));
             dropBalance.setText(String.format("$%.2f", savingsBalance));
         } catch (Exception e) {
@@ -208,7 +230,7 @@ public class DashboardController {
         }
     }
 
-    
+    // Adds interest to the savings account based on the current interest rate
     @FXML
     private void addInterestToSavings(ActionEvent event) {
         try {
@@ -234,7 +256,8 @@ public class DashboardController {
                 alert.showAndWait();
                 return;
             }
-    
+            
+            // Update the database and local balance
             UserRepository.depositToAccounts(currentUserId, 0, interestAmount);
             savingsBalance += interestAmount;
             dropBalance.setText(String.format("$%.2f", savingsBalance));
@@ -255,19 +278,27 @@ public class DashboardController {
         }
     }
 
+
+    // Opens a dialog to add or withdraw funds from accounts
     @FXML
     private void openFundsDialog(ActionEvent event) {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Manage Funds");
         DialogPane dialogPane = dialog.getDialogPane();
+
+        // Configure dialog buttons: close, add, withdraw
         ButtonType closeButtonType = new ButtonType("Close", ButtonBar.ButtonData.LEFT);
         ButtonType addButtonType = new ButtonType("Add", ButtonBar.ButtonData.APPLY);
         ButtonType withdrawButtonType = new ButtonType("Withdraw", ButtonBar.ButtonData.RIGHT);
         dialogPane.getButtonTypes().addAll(closeButtonType, addButtonType, withdrawButtonType);
+        
+        // Input fields for checking and savings amounts
         TextField checkingField = new TextField();
         checkingField.setPromptText("0.00");
         TextField savingsField = new TextField();
         savingsField.setPromptText("0.00");
+
+        // layout for dialog content
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -276,6 +307,7 @@ public class DashboardController {
 
         dialogPane.setContent(grid);
 
+        // Handle button actions
         dialog.showAndWait().ifPresent(buttonType -> {
             if (buttonType == closeButtonType) {
                 return;
@@ -330,6 +362,7 @@ public class DashboardController {
         }
     }
 
+    // Loads recent transfer activity for the current user into tableview
     private void loadActivity() {
         if (activityTable == null || actionColumn == null || changeColumn == null) {
             return;

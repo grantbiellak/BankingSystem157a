@@ -119,12 +119,7 @@
                         onAction="#submitLoanRequest"
                         styleClass="user-buttons"/>
             </HBox>
-
-            <Label fx:id="errorLabel"
-                   visible="false"
-                   styleClass="error-label"
-                   StackPane.alignment="TOP_CENTER"
-                   translateY="10"/>
+            
         </StackPane>
     </bottom>
 

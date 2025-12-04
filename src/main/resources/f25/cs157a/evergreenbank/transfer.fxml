@@ -111,14 +111,6 @@
                                 </HBox>
                             </HBox>
 
-                            <Label fx:id="toAccountNumberLabel"
-                                   styleClass="account-number"/>
-
-                            <Label fx:id="toAccountBalanceLabel"
-                                   styleClass="account-balance"/>
-
-                            <Label fx:id="toAccountSubLabel"
-                                   styleClass="account-label"/>
                         </VBox>
 
                     </HBox>

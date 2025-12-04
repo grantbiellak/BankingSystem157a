@@ -9,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.event.ActionEvent;
 import javafx.scene.layout.BorderPane;
 
 
@@ -17,6 +16,8 @@ import java.io.IOException;
 
 import java.sql.*;
 
+
+// controls the user creation view where new users can be added to the database
 public class UserController {
 
     private User user;

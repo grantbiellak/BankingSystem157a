@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 
+// This is the controller for the main login view (sign in with userID and full name)
 public class MainController {
 
 
@@ -55,7 +56,7 @@ public class MainController {
             return;
         }
 
-        // user repo has method to find matching user to accounts idk if better location
+        // fetch user accounts from database if it exists
         UserRepository.AccountsView view = null;
         try {
             view = UserRepository.getAccounts(userID, nameText);
@@ -74,6 +75,7 @@ public class MainController {
             return;
         }
 
+        // if successful, load dashboard view and pass user data
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/dashboard.fxml"));
         Parent dashboardRoot = loader.load();
         DashboardController controller = loader.getController();

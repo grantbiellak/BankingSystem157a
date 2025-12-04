@@ -8,8 +8,7 @@
             fx:controller="f25.cs157a.evergreenbank.Controllers.DashboardController">
     <top>
         <HBox spacing="40" alignment="CENTER" prefHeight="120" styleClass="top-bar">
-            <Label fx:id="welcomeName"
-                   text="Logout"
+            <Label text="Logout"
                    styleClass="top-bar-label"
                    onMouseClicked="#onBack"/>
             <Pane HBox.hgrow="ALWAYS"/>
@@ -97,6 +96,11 @@
                                                 onAction="#onManageLoans"
                                                 prefWidth="160"
                                                 styleClass="user-buttons"/>
+
+                                        <Button text="Delete User Account"
+                                                onAction="#handleUserDeletion"
+                                                prefWidth="160"
+                                                styleClass="user-buttons"/> 
                                     </VBox>
 
                                     <VBox spacing="10" alignment="TOP_LEFT">

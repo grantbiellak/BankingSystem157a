@@ -19,7 +19,7 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 
-
+// Controlls the loan view where users can request and repay loans
 public class LoanController {
 
     @FXML private Label totalBalanceLabel;
@@ -48,6 +48,7 @@ public class LoanController {
         this.savingsBalance = savingsBalance;
     }
 
+    // Loads unpaid loan amount from database to display
     public void loadLoanData() {
         try {
             unpaidLoanAmount = UserRepository.getUnpaidLoanAmount(currentUserId);
@@ -58,6 +59,8 @@ public class LoanController {
         }
     }
 
+
+    // Handles loan request submission, if valid input then calls UserRepository to process
     @FXML
     private void submitLoanRequest(ActionEvent event) {
         String loanAmountText = loanAmountField.getText().trim();
@@ -113,6 +116,8 @@ public class LoanController {
         }
     }
 
+
+    // Handles repaying part or all of the unpaid loan from checkings or savings
     @FXML
     private void submitLoanRepayment(ActionEvent event) {
         String repaymentAmountText = repaymentAmountField.getText().trim();
@@ -171,6 +176,8 @@ public class LoanController {
         }
     }
 
+
+    // return to dashboard view, passing user data
     @FXML
     private void backToDashboard(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/dashboard.fxml"));

@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.sql.SQLException;
 
+// controls transfer view where users can transfer funds between accounts (self and others)
 public class TransferController {
 
     @FXML private ComboBox<String> toAccountTypeCombo;
@@ -54,6 +55,7 @@ public class TransferController {
         this.checkingBalance = balance;
     }
 
+    // populate account data on the transfer view
     public void loadAccountData() {
         mainBalance.setText(String.format("$%.2f", checkingBalance));
         dropBalance.setText(String.format("$%.2f", savingsBalance));
@@ -73,31 +75,37 @@ public class TransferController {
         }
     }
 
+    // validates input and processes the transfer when the transfer button is clicked
     @FXML
     private void handleTransfer() {
         try {
             errorLabel.setVisible(false);
 
+            // determine from account type
             String fromChoice = mainType.getText();
             if (fromChoice == null || fromChoice.isBlank()) {
                 throw new IllegalArgumentException("From account type is not set.");
             }
 
+            // ensure to account type is selected
             if (toAccountTypeCombo == null || toAccountTypeCombo.getValue() == null) {
                 throw new IllegalArgumentException("Please select a destination account type.");
             }
             String toChoice = toAccountTypeCombo.getValue();
 
+            // validate amount input
             if (toAmountField == null || toAmountField.getText().isBlank()) {
                 throw new IllegalArgumentException("Please enter an amount.");
             }
             double amount = Double.parseDouble(toAmountField.getText().trim());
 
+            // validate target user ID input
             if (toUserIdField == null || toUserIdField.getText().isBlank()) {
                 throw new IllegalArgumentException("Please enter a target user ID.");
             }
             int targetUserId = Integer.parseInt(toUserIdField.getText().trim());
 
+            // attempt transfer in database
             boolean success = UserRepository.transferByUserAndType(
                     currentUserId,
                     fromChoice.toUpperCase(),
@@ -177,11 +185,13 @@ public class TransferController {
         }
     }
 
+    // refreshes the account cards to show updated balances
     private void refreshAccountCards() {
         applyBalanceForType(mainType, mainBalance);
         applyBalanceForType(dropType, dropBalance);
     }
 
+    // applies the correct balance to the given balance label based on the account type label
     private void applyBalanceForType(Label typeLabel, Label balanceLabel) {
         if (typeLabel == null || balanceLabel == null || typeLabel.getText() == null) return;
 
@@ -227,6 +237,7 @@ public class TransferController {
     }
 
 
+    // handles the back to dashboard button click and passes user data
     @FXML
     private void backToDashboard(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/dashboard.fxml"));
@@ -239,6 +250,7 @@ public class TransferController {
         scene.setRoot(mainRoot);
     }
 
+    // handles the log out at the top that returns back gto the main screen
     @FXML
     private void onBackToMain(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/f25/cs157a/evergreenbank/main-view.fxml"));
