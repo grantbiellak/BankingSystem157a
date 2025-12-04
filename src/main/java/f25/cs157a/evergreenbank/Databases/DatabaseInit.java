@@ -11,7 +11,6 @@ public class DatabaseInit {
         String pass = "";
         try(Connection conn = DriverManager.getConnection(url,user,pass);
             Statement stmt = conn.createStatement()){
-            // TODO Add this to method we can initialize in launcher
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS bankdb");
             stmt.executeUpdate("USE bankdb");
 
