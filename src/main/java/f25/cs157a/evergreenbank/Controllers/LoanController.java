@@ -67,6 +67,7 @@ public class LoanController {
         double loanAmount;
 
         double loanCap = 1000000.00;
+        double maxTotalBalance = 99999999999999.99;
 
         try {
             loanAmount = Double.parseDouble(loanAmountText);
@@ -83,6 +84,11 @@ public class LoanController {
 
             if (loanAmount > loanCap) {
                 showError("Loan Request Denied", "Loan amount exceeds the maximum cap of $1,000,000.00.");
+                return;
+            }
+
+            if (loanAmount + checkingBalance > maxTotalBalance) {
+                showError("Loan Request Denied", "Total balance after loan exceeds maximum allowed balance.");
                 return;
             }
 
