@@ -113,11 +113,6 @@
                 <Button text="Back"
                         onAction="#backToDashboard"
                         styleClass="user-buttons"/>
-
-                <Region HBox.hgrow="ALWAYS"/>
-                <Button text="Submit Loan Request"
-                        onAction="#submitLoanRequest"
-                        styleClass="user-buttons"/>
             </HBox>
             
         </StackPane>
