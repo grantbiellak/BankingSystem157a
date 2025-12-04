@@ -31,7 +31,7 @@ public class DatabaseInit {
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     user_id INT NOT NULL,
                     account_type ENUM('CHECKING','SAVINGS') NOT NULL,
-                    balance DOUBLE NOT NULL,
+                    balance DECIMAL(16,2) NOT NULL,
                     interest_rate DOUBLE NULL,
                     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
                 )
@@ -43,7 +43,7 @@ public class DatabaseInit {
                     transfer_id INT AUTO_INCREMENT PRIMARY KEY,
                     sender_id INT NOT NULL,
                     receiver_id INT NOT NULL,
-                    amount DOUBLE NOT NULL,
+                    amount DECIMAL(16,2) NOT NULL,
                     date DATETIME NOT NULL,
                     status ENUM('SUCCESS', 'FAIL') NOT NULL
                     )
@@ -55,7 +55,7 @@ public class DatabaseInit {
                 CREATE TABLE IF NOT EXISTS loan(
                     loan_id INT AUTO_INCREMENT PRIMARY KEY,
                     customer_id INT NOT NULL,
-                    amount DOUBLE NOT NULL,
+                    amount DECIMAL(16,2) NOT NULL,
                     date DATETIME NOT NULL,
                     status ENUM('PAID', 'UNPAID') NOT NULL,
                     FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE CASCADE

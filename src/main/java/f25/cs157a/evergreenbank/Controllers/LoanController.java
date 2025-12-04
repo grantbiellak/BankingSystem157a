@@ -63,6 +63,8 @@ public class LoanController {
         String loanAmountText = loanAmountField.getText().trim();
         double loanAmount;
 
+        double loanCap = 1000000.00;
+
         try {
             loanAmount = Double.parseDouble(loanAmountText);
 
@@ -73,6 +75,11 @@ public class LoanController {
 
             if (loanAmount > totalBalance * 2) {
                 showError("Loan Request Denied", "Loan amount exceeds double your total balance.");
+                return;
+            }
+
+            if (loanAmount > loanCap) {
+                showError("Loan Request Denied", "Loan amount exceeds the maximum cap of $1,000,000.00.");
                 return;
             }
 
