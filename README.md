@@ -15,7 +15,7 @@ The requirements to run this project are as follows:
 * MySQL server 8.0 or higher installed
 * The MySQL root user must be available with full permissions (or a different user with full permissions)
 * src/main/java/f25/cs157a/evergreenbank/mysql-connector-j-9.5.0.jar set as a maven dependency
-* Either the DatabaseInit or create_schema.sql file must be run before starting
+* Either the DatabaseInit or create_schema.sql (found in the root of this project) file must be run before starting
 
 To run the program simply run the src/main/java/f25/cs157a/evergreenbank/Launcher.java file from your IDE
 
